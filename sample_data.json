@@ -12,16 +12,6 @@
     ]
   },
   "workouts": [
-    {
-      "id": "w1",
-      "name": "Tabata Classic",
-      "exerciceIds": []
-    },
-    {
-      "id": "w2",
-      "name": "Quick Core",
-      "exerciceIds": []
-    }
   ],
   "exercices": [
     {

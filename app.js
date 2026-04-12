@@ -53,6 +53,23 @@ async function loadData() {
   }
 }
 
+async function loadSampleData() {
+  try {
+    const response = await fetch('sample_data.json');
+    if (!response.ok) {
+      throw new Error(`Sample data request failed: ${response.status}`);
+    }
+    const sample = await response.json();
+    normalizeProfile(sample);
+    normalizeStats(sample);
+    saveData(sample);
+    return sample;
+  } catch (error) {
+    console.error('Unable to load sample_data.json:', error);
+    throw error;
+  }
+}
+
 function saveData(data) {
   localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
 }
@@ -234,6 +251,20 @@ function renderManageProfiles(data) {
       textarea.value = JSON.stringify(getExportProfile(data), null, 2);
     } catch (error) {
       alert(`Unable to load profile JSON: ${error.message}`);
+    }
+  });
+
+  const loadSampleButton = document.querySelector('#loadSample');
+  loadSampleButton?.addEventListener('click', async event => {
+    event.preventDefault();
+    if (!confirm('This will reset all your data to the sample data. Continue?')) return;
+    try {
+      data = await loadSampleData();
+      alert('Sample data loaded successfully.');
+      input.value = data.profile.name;
+      textarea.value = JSON.stringify(getExportProfile(data), null, 2);
+    } catch (error) {
+      alert(`Unable to load sample data: ${error.message}`);
     }
   });
 
