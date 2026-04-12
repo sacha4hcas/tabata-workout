@@ -16,7 +16,7 @@ async function loadData() {
   if (stored) {
     try {
       const data = JSON.parse(stored);
-      normalizeProfile(data);
+      normalizeData(data);
       if (!isEmptyData(data)) {
         normalizeStats(data);
         saveData(data);
@@ -34,7 +34,7 @@ async function loadData() {
       throw new Error(`Sample data request failed: ${response.status}`);
     }
     const sample = await response.json();
-    normalizeProfile(sample);
+    normalizeData(sample);
     normalizeStats(sample);
     saveData(sample);
     return sample;
@@ -46,7 +46,7 @@ async function loadData() {
       exercices: [],
       stats: []
     };
-    normalizeProfile(fallback);
+    normalizeData(fallback);
     normalizeStats(fallback);
     saveData(fallback);
     return fallback;
@@ -60,7 +60,7 @@ async function loadSampleData() {
       throw new Error(`Sample data request failed: ${response.status}`);
     }
     const sample = await response.json();
-    normalizeProfile(sample);
+    normalizeData(sample);
     normalizeStats(sample);
     saveData(sample);
     return sample;
@@ -74,12 +74,26 @@ function saveData(data) {
   localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
 }
 
-function normalizeProfile(data) {
+function normalizeData(data) {
   if (!data.profile || typeof data.profile !== 'object') {
     data.profile = { name: 'Guest', categories: [] };
   }
   if (!Array.isArray(data.profile.categories)) {
     data.profile.categories = [];
+  }
+  if (!Array.isArray(data.exercices)) {
+    data.exercices = [];
+  }
+  data.exercices.forEach(ex => {
+    if (!Array.isArray(ex.categories)) {
+      ex.categories = [];
+    }
+  });
+  if (!Array.isArray(data.workouts)) {
+    data.workouts = [];
+  }
+  if (!Array.isArray(data.stats)) {
+    data.stats = [];
   }
 }
 
