@@ -93,10 +93,11 @@ a.small {
 .list-item div {
   min-width: 0;
 }
-.list-item.highlighted {
-  background: #dbeafe;
-  border-color: #3b82f6;
-}
+.list-item-actions {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  justify-content: flex-end;
 }
 input[type=text], textarea, select {
   width: 100%;
