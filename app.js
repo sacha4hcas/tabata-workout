@@ -374,7 +374,7 @@ function showCategoryExercises(category) {
       } else {
         ex.categories.push(category);
       }
-      saveData();
+      saveData(data);
       showCategoryExercises(category);
     });
     exercisesList.appendChild(item);
