@@ -11,14 +11,13 @@
       "Bas du corps"
     ]
   },
-  "workouts": [
-  ],
+  "workouts": [],
   "exercices": [
     {
       "id": "e1776013696353",
       "name": "Montée de talon avec balle",
       "description": "",
-      "mediaUrl": "",
+      "mediaUrl": "https://mir-s3-cdn-cf.behance.net/project_modules/fs/218fc872735831.5bf1e45999c40.gif",
       "effortDuration": 60,
       "restDuration": 5,
       "prepDuration": 5,
@@ -49,7 +48,6 @@
       "restDuration": 5,
       "prepDuration": 5,
       "categories": [
-        "Proprioception",
         "Bas du corps"
       ]
     },
@@ -62,7 +60,7 @@
       "restDuration": 10,
       "prepDuration": 5,
       "categories": [
-        "Proprioception"
+        "Bas du corps"
       ]
     },
     {
@@ -74,8 +72,8 @@
       "restDuration": 5,
       "prepDuration": 5,
       "categories": [
-        "Badminton",
-        "Proprioception"
+        "Proprioception",
+        "Bas du corps"
       ]
     },
     {
@@ -87,8 +85,8 @@
       "restDuration": 5,
       "prepDuration": 5,
       "categories": [
-        "Badminton",
-        "Proprioception"
+        "Proprioception",
+        "Bas du corps"
       ]
     },
     {
@@ -101,7 +99,8 @@
       "prepDuration": 5,
       "categories": [
         "Etirement",
-        "Rééducation"
+        "Rééducation",
+        "Bas du corps"
       ]
     },
     {
@@ -113,7 +112,9 @@
       "restDuration": 5,
       "prepDuration": 5,
       "categories": [
-        "Rééducation"
+        "Rééducation",
+        "Etirement",
+        "Bas du corps"
       ]
     },
     {
@@ -126,7 +127,8 @@
       "prepDuration": 5,
       "categories": [
         "Etirement",
-        "Rééducation"
+        "Rééducation",
+        "Bas du corps"
       ]
     },
     {
@@ -138,7 +140,8 @@
       "restDuration": 5,
       "prepDuration": 5,
       "categories": [
-        "Rééducation"
+        "Rééducation",
+        "Bas du corps"
       ]
     },
     {
@@ -151,7 +154,8 @@
       "prepDuration": 5,
       "categories": [
         "Proprioception",
-        "Rééducation"
+        "Rééducation",
+        "Bas du corps"
       ]
     },
     {
@@ -164,7 +168,8 @@
       "prepDuration": 5,
       "categories": [
         "Proprioception",
-        "Rééducation"
+        "Rééducation",
+        "Bas du corps"
       ]
     },
     {
@@ -177,7 +182,8 @@
       "prepDuration": 5,
       "categories": [
         "Proprioception",
-        "Rééducation"
+        "Rééducation",
+        "Bas du corps"
       ]
     },
     {
@@ -190,7 +196,8 @@
       "prepDuration": 5,
       "categories": [
         "Proprioception",
-        "Rééducation"
+        "Rééducation",
+        "Bas du corps"
       ]
     },
     {
@@ -203,7 +210,8 @@
       "prepDuration": 5,
       "categories": [
         "Proprioception",
-        "Rééducation"
+        "Rééducation",
+        "Bas du corps"
       ]
     },
     {
@@ -215,8 +223,8 @@
       "restDuration": 5,
       "prepDuration": 5,
       "categories": [
-        "Badminton",
-        "Proprioception"
+        "Proprioception",
+        "Bas du corps"
       ]
     },
     {
@@ -229,7 +237,8 @@
       "prepDuration": 5,
       "categories": [
         "Proprioception",
-        "Rééducation"
+        "Rééducation",
+        "Bas du corps"
       ]
     },
     {
@@ -242,7 +251,8 @@
       "prepDuration": 5,
       "categories": [
         "Proprioception",
-        "Rééducation"
+        "Rééducation",
+        "Bas du corps"
       ]
     },
     {
@@ -255,7 +265,8 @@
       "prepDuration": 10,
       "categories": [
         "Badminton",
-        "Proprioception"
+        "Proprioception",
+        "Bas du corps"
       ]
     },
     {
@@ -290,7 +301,9 @@
       "effortDuration": 60,
       "restDuration": 5,
       "prepDuration": 10,
-      "categories": []
+      "categories": [
+        "Badminton"
+      ]
     },
     {
       "id": "e1776014399446",
@@ -361,7 +374,8 @@
       "restDuration": 10,
       "prepDuration": 5,
       "categories": [
-        "Rééducation"
+        "Rééducation",
+        "Bas du corps"
       ]
     },
     {
@@ -373,7 +387,8 @@
       "restDuration": 5,
       "prepDuration": 10,
       "categories": [
-        "Calisthenics"
+        "Calisthenics",
+        "Haut du corps"
       ]
     },
     {
@@ -385,7 +400,8 @@
       "restDuration": 5,
       "prepDuration": 5,
       "categories": [
-        "Calisthenics"
+        "Calisthenics",
+        "Haut du corps"
       ]
     },
     {
@@ -427,7 +443,8 @@
       "categories": [
         "Etirement",
         "Rééducation",
-        "Haut du corps"
+        "Haut du corps",
+        "Calisthenics"
       ]
     },
     {
@@ -466,7 +483,9 @@
       "prepDuration": 5,
       "categories": [
         "Etirement",
-        "Bas du corps"
+        "Bas du corps",
+        "Calisthenics",
+        "Rééducation"
       ]
     },
     {
@@ -478,8 +497,6 @@
       "restDuration": 5,
       "prepDuration": 10,
       "categories": [
-        "Badminton",
-        "Proprioception",
         "Bas du corps"
       ]
     },
@@ -492,8 +509,6 @@
       "restDuration": 5,
       "prepDuration": 10,
       "categories": [
-        "Badminton",
-        "Proprioception",
         "Bas du corps"
       ]
     },
@@ -506,8 +521,6 @@
       "restDuration": 5,
       "prepDuration": 10,
       "categories": [
-        "Badminton",
-        "Proprioception",
         "Bas du corps"
       ]
     },
@@ -520,8 +533,6 @@
       "restDuration": 5,
       "prepDuration": 10,
       "categories": [
-        "Badminton",
-        "Proprioception",
         "Bas du corps"
       ]
     },
@@ -534,7 +545,6 @@
       "restDuration": 5,
       "prepDuration": 10,
       "categories": [
-        "Badminton",
         "Bas du corps"
       ]
     },
@@ -547,8 +557,6 @@
       "restDuration": 5,
       "prepDuration": 10,
       "categories": [
-        "Badminton",
-        "Proprioception",
         "Bas du corps"
       ]
     },
@@ -561,7 +569,6 @@
       "restDuration": 5,
       "prepDuration": 5,
       "categories": [
-        "Badminton",
         "Bas du corps"
       ]
     },
@@ -574,7 +581,6 @@
       "restDuration": 5,
       "prepDuration": 10,
       "categories": [
-        "Badminton",
         "Bas du corps"
       ]
     },
@@ -587,7 +593,6 @@
       "restDuration": 5,
       "prepDuration": 5,
       "categories": [
-        "Badminton",
         "Bas du corps"
       ]
     },
@@ -600,8 +605,78 @@
       "restDuration": 5,
       "prepDuration": 5,
       "categories": [
-        "Badminton",
         "Bas du corps"
+      ]
+    },
+    {
+      "id": "e1776034880173",
+      "name": "Tractions",
+      "description": "",
+      "mediaUrl": "",
+      "effortDuration": 30,
+      "restDuration": 5,
+      "prepDuration": 5,
+      "categories": [
+        "Calisthenics",
+        "Haut du corps"
+      ]
+    },
+    {
+      "id": "e1776034896885",
+      "name": "Barre hold",
+      "description": "",
+      "mediaUrl": "",
+      "effortDuration": 60,
+      "restDuration": 5,
+      "prepDuration": 5,
+      "categories": [
+        "Calisthenics",
+        "Etirement",
+        "Haut du corps"
+      ]
+    },
+    {
+      "id": "e1776034964699",
+      "name": "Abdo barre",
+      "description": "",
+      "mediaUrl": "",
+      "effortDuration": 60,
+      "restDuration": 5,
+      "prepDuration": 5,
+      "categories": [
+        "Calisthenics",
+        "Etirement",
+        "Haut du corps",
+        "Bas du corps"
+      ]
+    },
+    {
+      "id": "e1776034989173",
+      "name": "Etirement épaule",
+      "description": "",
+      "mediaUrl": "",
+      "effortDuration": 60,
+      "restDuration": 5,
+      "prepDuration": 5,
+      "categories": [
+        "Badminton",
+        "Etirement",
+        "Rééducation",
+        "Haut du corps"
+      ]
+    },
+    {
+      "id": "e1776035021183",
+      "name": "Haltère poignet",
+      "description": "",
+      "mediaUrl": "",
+      "effortDuration": 60,
+      "restDuration": 5,
+      "prepDuration": 5,
+      "categories": [
+        "Badminton",
+        "Rééducation",
+        "Haut du corps"
       ]
     }
   ],
@@ -616,7 +691,7 @@
     },
     {
       "label": "Total exercices",
-      "value": 46
+      "value": 51
     }
   ]
 }
