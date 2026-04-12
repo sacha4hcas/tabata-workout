@@ -343,23 +343,37 @@ function showCategoryExercises(category) {
   nameSpan.textContent = category;
   exercisesList.innerHTML = '';
 
-  const exercises = data.exercices.filter(ex => Array.isArray(ex.categories) && ex.categories.includes(category));
-  if (exercises.length === 0) {
-    exercisesList.innerHTML = '<li>No exercises in this category.</li>';
-  } else {
-    exercises.forEach(ex => {
-      const item = document.createElement('li');
-      item.className = 'list-item';
-      item.innerHTML = `
-        <div>
-          <strong>${ex.name}</strong>
-          <div>${ex.description}</div>
-        </div>`;
-      exercisesList.appendChild(item);
-    });
-  }
+  data.exercices.forEach(ex => {
+    const hasCategory = Array.isArray(ex.categories) && ex.categories.includes(category);
+    const item = document.createElement('li');
+    item.className = `list-item ${hasCategory ? 'highlighted' : ''}`;
+    item.innerHTML = `
+      <div>
+        <strong>${ex.name}</strong>
+        <div>${ex.description}</div>
+      </div>`;
+    item.dataset.exerciceId = ex.id;
+    exercisesList.appendChild(item);
+  });
 
   section.style.display = 'block';
+
+  exercisesList.addEventListener('click', event => {
+    const item = event.target.closest('li');
+    if (!item || !item.dataset.exerciceId) return;
+    const exerciceId = item.dataset.exerciceId;
+    const ex = data.exercices.find(e => e.id === exerciceId);
+    if (!ex) return;
+    if (!Array.isArray(ex.categories)) ex.categories = [];
+    const index = ex.categories.indexOf(category);
+    if (index > -1) {
+      ex.categories.splice(index, 1);
+    } else {
+      ex.categories.push(category);
+    }
+    saveData(data);
+    showCategoryExercises(category); // Re-render to update highlights
+  });
 }
 
 function renderManageWorkouts(data) {
