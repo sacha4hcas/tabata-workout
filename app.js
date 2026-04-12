@@ -346,12 +346,23 @@ function showCategoryExercises(category) {
   data.exercices.forEach(ex => {
     const hasCategory = Array.isArray(ex.categories) && ex.categories.includes(category);
     const item = document.createElement('li');
-    item.className = `list-item ${hasCategory ? 'highlighted' : ''}`;
+    item.className = `list-item clickable ${hasCategory ? 'highlighted' : ''}`;
     item.innerHTML = `
       <div>
         <strong>${ex.name}</strong>
         <div>${ex.description}</div>
       </div>`;
+    item.addEventListener('click', () => {
+      if (!Array.isArray(ex.categories)) ex.categories = [];
+      const index = ex.categories.indexOf(category);
+      if (index > -1) {
+        ex.categories.splice(index, 1);
+      } else {
+        ex.categories.push(category);
+      }
+      saveData();
+      showCategoryExercises(category);
+    });
     exercisesList.appendChild(item);
   });
 

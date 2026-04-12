@@ -90,6 +90,13 @@ a.small {
   margin-top: 12px;
   background: #f8fafc;
 }
+.clickable {
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+.clickable:hover {
+  background: #e2e8f0;
+}
 .highlighted {
   background: #dbeafe !important;
 }
