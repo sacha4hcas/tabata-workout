@@ -1,0 +1,43 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Start Workout</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body data-page="start_workout">
+  <header>
+    <h1>Start Workout</h1>
+    <nav>
+      <a class="nav-link" href="index.html">Home</a>
+      <a class="nav-link" href="manage_profiles.html">Manage Profile</a>
+      <a class="nav-link" href="manage_categories.html">Categories</a>
+      <a class="nav-link" href="manage_workouts.html">Manage Workouts</a>
+      <a class="nav-link" href="manage_exercices.html">Manage Exercices</a>
+      <a class="nav-link" href="stats.html">Stats</a>
+    </nav>
+  </header>
+  <main class="page-card">
+    <section>
+      <label for="workoutSelect">Select workout</label>
+      <select id="workoutSelect"></select>
+      <div class="choice-row">
+        <label>
+          <input id="modeFull" name="workoutMode" type="radio" value="full" checked /> Full workout
+        </label>
+        <label>
+          <input id="modeInfinite" name="workoutMode" type="radio" value="infinite" /> Infinite workout
+        </label>
+      </div>
+      <label>
+        <input id="randomOrder" type="checkbox" /> Random order
+      </label>
+    </section>
+    <section>
+      <button id="startWorkout" class="button">Start</button>
+    </section>
+  </main>
+  <script src="app.js"></script>
+</body>
+</html>

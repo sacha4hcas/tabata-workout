@@ -1,0 +1,45 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Edit Exercice</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body data-page="edit_exercice">
+  <header>
+    <h1 id="exerciceTitle">Edit Exercice</h1>
+    <nav>
+      <a class="nav-link" href="index.html">Home</a>
+      <a class="nav-link" href="manage_profiles.html">Manage Profile</a>
+      <a class="nav-link" href="manage_categories.html">Categories</a>
+      <a class="nav-link" href="manage_workouts.html">Manage Workouts</a>
+      <a class="nav-link" href="manage_exercices.html">Manage Exercices</a>
+      <a class="nav-link" href="stats.html">Stats</a>
+    </nav>
+  </header>
+  <main class="page-card">
+    <section>
+      <label for="exerciceName">Exercice name</label>
+      <input id="exerciceName" type="text" placeholder="Exercice name" />
+      <label for="exerciceDescription">Description</label>
+      <textarea id="exerciceDescription" rows="4" placeholder="Exercice description"></textarea>
+      <label for="mediaUrl">Media URL</label>
+      <input id="mediaUrl" type="text" placeholder="https://example.com/image.jpg" />
+      <label for="effortDuration">Effort duration (seconds)</label>
+      <input id="effortDuration" type="text" />
+      <label for="restDuration">Rest duration (seconds)</label>
+      <input id="restDuration" type="text" />
+      <label for="prepDuration">Prep duration (seconds)</label>
+      <input id="prepDuration" type="text" />
+      <label>Categories</label>
+      <div id="categoriesCheckboxes" class="checkbox-group"></div>
+    </section>
+    <section class="button-row">
+      <button id="saveExercice" class="button">Save</button>
+      <button id="cancelExercice" class="button secondary">Cancel</button>
+    </section>
+  </main>
+  <script src="app.js"></script>
+</body>
+</html>

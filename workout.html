@@ -1,0 +1,58 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Workout</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body data-page="workout">
+  <header>
+    <h1>Workout</h1>
+    <nav>
+      <a class="nav-link" href="index.html">Home</a>
+      <a class="nav-link" href="manage_profiles.html">Manage Profile</a>
+      <a class="nav-link" href="manage_categories.html">Categories</a>
+      <a class="nav-link" href="manage_workouts.html">Manage Workouts</a>
+      <a class="nav-link" href="manage_exercices.html">Manage Exercices</a>
+      <a class="nav-link" href="stats.html">Stats</a>
+    </nav>
+  </header>
+  <main class="page-card">
+    <section>
+      <h2 id="workoutNameLabel">Workout Name</h2>
+      <div class="timer-panel">
+        <div>
+          <strong>Global timer</strong>
+          <div id="globalTimer" class="timer-value">00:00</div>
+        </div>
+      </div>
+    </section>
+    <section>
+      <h3>Current exercice</h3>
+      <div id="currentExerciceName" class="workout-block"></div>
+      <div id="exerciceMediaHolder" class="workout-media">
+        <img id="exerciceMedia" src="" alt="Exercise media" />
+      </div>
+      <div>
+        <strong>Current phase</strong>
+        <div id="currentPhaseName" class="next-exercice"></div>
+      </div>
+      <div>
+        <strong>Exercice timer</strong>
+        <div id="exerciceTimer" class="timer-value">00:00</div>
+      </div>
+      <div>
+        <strong>Next exercice</strong>
+        <div id="nextExerciceName" class="next-exercice"></div>
+      </div>
+    </section>
+    <section class="button-row">
+      <button id="pauseResume" class="button">Pause</button>
+      <button id="skipExercise" class="button secondary">Skip</button>
+      <button id="stopWorkout" class="button secondary">Stop</button>
+    </section>
+  </main>
+  <script src="app.js"></script>
+</body>
+</html>

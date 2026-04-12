@@ -1,0 +1,37 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Edit Workout</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body data-page="edit_workout">
+  <header>
+    <h1 id="workoutTitle">Edit Workout</h1>
+    <nav>
+      <a class="nav-link" href="index.html">Home</a>
+      <a class="nav-link" href="manage_profiles.html">Manage Profile</a>
+      <a class="nav-link" href="manage_categories.html">Categories</a>
+      <a class="nav-link" href="manage_workouts.html">Manage Workouts</a>
+      <a class="nav-link" href="manage_exercices.html">Manage Exercices</a>
+      <a class="nav-link" href="stats.html">Stats</a>
+    </nav>
+  </header>
+  <main class="page-card">
+    <section>
+      <label for="workoutName">Workout name</label>
+      <input id="workoutName" type="text" placeholder="Workout name" />
+    </section>
+    <section>
+      <h2>Exercise List</h2>
+      <div id="exerciceList" class="list-card"></div>
+    </section>
+    <section>
+      <a id="addExisting" class="button" href="select_exercices.html">Add existing</a>
+      <a class="button secondary" href="edit_exercice.html">Add new</a>
+    </section>
+  </main>
+  <script src="app.js"></script>
+</body>
+</html>

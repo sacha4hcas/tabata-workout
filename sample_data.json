@@ -1,0 +1,70 @@
+{
+  "profile": {
+    "name": "Guest",
+    "categories": ["Cardio", "Strength", "Core"]
+  },
+  "workouts": [
+    {
+      "id": "w1",
+      "name": "Tabata Classic",
+      "exerciceIds": ["e1", "e2", "e3"]
+    },
+    {
+      "id": "w2",
+      "name": "Quick Core",
+      "exerciceIds": ["e4", "e3"]
+    }
+  ],
+  "exercices": [
+    {
+      "id": "e1",
+      "name": "Jumping Jacks",
+      "description": "Warm up the whole body",
+      "mediaUrl": "https://via.placeholder.com/320x180?text=Jumping+Jacks",
+      "effortDuration": 20,
+      "restDuration": 10,
+      "prepDuration": 5
+    },
+    {
+      "id": "e2",
+      "name": "Bodyweight Squats",
+      "description": "Lower body strength move",
+      "mediaUrl": "https://via.placeholder.com/320x180?text=Squats",
+      "effortDuration": 20,
+      "restDuration": 10,
+      "prepDuration": 5
+    },
+    {
+      "id": "e3",
+      "name": "Plank Hold",
+      "description": "Core stability exercise",
+      "mediaUrl": "https://via.placeholder.com/320x180?text=Plank",
+      "effortDuration": 30,
+      "restDuration": 15,
+      "prepDuration": 5
+    },
+    {
+      "id": "e4",
+      "name": "Mountain Climbers",
+      "description": "Fast-paced cardio move",
+      "mediaUrl": "https://via.placeholder.com/320x180?text=Mountain+Climbers",
+      "effortDuration": 25,
+      "restDuration": 10,
+      "prepDuration": 5
+    }
+  ],
+  "stats": [
+    {
+      "label": "Workouts completed",
+      "value": 0
+    },
+    {
+      "label": "Exercices done",
+      "value": 0
+    },
+    {
+      "label": "Total exercices",
+      "value": 4
+    }
+  ]
+}
