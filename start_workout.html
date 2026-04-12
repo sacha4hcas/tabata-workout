@@ -20,8 +20,22 @@
   </header>
   <main class="page-card">
     <section>
-      <label for="workoutSelect">Select workout</label>
-      <select id="workoutSelect"></select>
+      <div class="choice-row">
+        <label>
+          <input id="typeWorkout" name="startType" type="radio" value="workout" checked /> Workout
+        </label>
+        <label>
+          <input id="typeCategories" name="startType" type="radio" value="categories" /> Categories
+        </label>
+      </div>
+      <div id="workoutSection">
+        <label for="workoutSelect">Select workout</label>
+        <select id="workoutSelect"></select>
+      </div>
+      <div id="categoriesSection" style="display: none;">
+        <label>Select categories</label>
+        <div id="categoriesCheckboxes" class="checkbox-group"></div>
+      </div>
       <div class="choice-row">
         <label>
           <input id="modeFull" name="workoutMode" type="radio" value="full" checked /> Full workout

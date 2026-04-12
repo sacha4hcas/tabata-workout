@@ -512,11 +512,16 @@ function renderSelectExercices(data) {
 }
 
 function renderStartWorkout(data) {
+  const typeWorkout = document.querySelector('#typeWorkout');
+  const typeCategories = document.querySelector('#typeCategories');
+  const workoutSection = document.querySelector('#workoutSection');
+  const categoriesSection = document.querySelector('#categoriesSection');
   const workoutSelect = document.querySelector('#workoutSelect');
+  const categoriesCheckboxes = document.querySelector('#categoriesCheckboxes');
   const modeFull = document.querySelector('#modeFull');
   const modeInfinite = document.querySelector('#modeInfinite');
   const startButton = document.querySelector('#startWorkout');
-  if (!workoutSelect || !modeFull || !modeInfinite || !startButton) return;
+  if (!typeWorkout || !typeCategories || !workoutSection || !categoriesSection || !workoutSelect || !categoriesCheckboxes || !modeFull || !modeInfinite || !startButton) return;
 
   data.workouts.forEach(workout => {
     const option = document.createElement('option');
@@ -525,17 +530,58 @@ function renderStartWorkout(data) {
     workoutSelect.appendChild(option);
   });
 
-  startButton.addEventListener('click', () => {
-    const workoutId = workoutSelect.value;
-    if (!workoutId) {
-      alert('Please select a workout.');
+  function updateCategories() {
+    categoriesCheckboxes.innerHTML = '';
+    const categories = Array.isArray(data.profile.categories) ? data.profile.categories : [];
+    if (categories.length === 0) {
+      categoriesCheckboxes.textContent = 'No categories available. Add some first.';
       return;
     }
-    const mode = modeInfinite.checked ? 'infinite' : 'full';
+    categories.forEach(category => {
+      const label = document.createElement('label');
+      label.innerHTML = `<input type="checkbox" value="${category}" /> ${category}`;
+      categoriesCheckboxes.appendChild(label);
+    });
+  }
+
+  function toggleSections() {
+    if (typeWorkout.checked) {
+      workoutSection.style.display = 'block';
+      categoriesSection.style.display = 'none';
+    } else {
+      workoutSection.style.display = 'none';
+      categoriesSection.style.display = 'block';
+    }
+  }
+
+  updateCategories();
+  toggleSections();
+
+  typeWorkout.addEventListener('change', toggleSections);
+  typeCategories.addEventListener('change', toggleSections);
+
+  startButton.addEventListener('click', () => {
     const params = new URLSearchParams();
-    params.set('workoutId', workoutId);
+    const mode = modeInfinite.checked ? 'infinite' : 'full';
     params.set('mode', mode);
     params.set('random', document.querySelector('#randomOrder').checked.toString());
+
+    if (typeWorkout.checked) {
+      const workoutId = workoutSelect.value;
+      if (!workoutId) {
+        alert('Please select a workout.');
+        return;
+      }
+      params.set('workoutId', workoutId);
+    } else {
+      const selectedCategories = Array.from(categoriesCheckboxes.querySelectorAll('input[type="checkbox"]:checked')).map(cb => cb.value);
+      if (selectedCategories.length === 0) {
+        alert('Please select at least one category.');
+        return;
+      }
+      params.set('categories', selectedCategories.join(','));
+    }
+
     window.location.href = `workout.html?${params.toString()}`;
   });
 }
@@ -558,7 +604,24 @@ function shuffleArray(array) {
 function renderWorkout(data) {
   const params = parseQuery();
   const workoutId = params.workoutId;
-  const workout = getWorkout(data, workoutId);
+  const categoriesParam = params.categories;
+  let workout = null;
+  let workoutName = 'Category Workout';
+  let sequence = [];
+
+  if (workoutId) {
+    workout = getWorkout(data, workoutId);
+    if (!workout) return;
+    workoutName = workout.name;
+    sequence = workout.exerciceIds.map(id => getExercice(data, id)).filter(Boolean);
+  } else if (categoriesParam) {
+    const selectedCategories = categoriesParam.split(',').filter(Boolean);
+    sequence = data.exercices.filter(exercice => Array.isArray(exercice.categories) && exercice.categories.some(cat => selectedCategories.includes(cat)));
+    workoutName = selectedCategories.length === 1 ? `Category: ${selectedCategories[0]}` : 'Categories Workout';
+  } else {
+    return;
+  }
+
   const workoutNameLabel = document.querySelector('#workoutNameLabel');
   const globalTimer = document.querySelector('#globalTimer');
   const currentExerciceName = document.querySelector('#currentExerciceName');
@@ -570,16 +633,24 @@ function renderWorkout(data) {
   const pauseResume = document.querySelector('#pauseResume');
   const skipButton = document.querySelector('#skipExercise');
   const stopWorkout = document.querySelector('#stopWorkout');
-  if (!workout || !workoutNameLabel || !globalTimer || !currentExerciceName || !currentPhaseName || !exerciceMedia || !exerciceMediaHolder || !exerciceTimer || !nextExerciceName || !pauseResume || !skipButton || !stopWorkout) {
+  if (!workoutNameLabel || !globalTimer || !currentExerciceName || !currentPhaseName || !exerciceMedia || !exerciceMediaHolder || !exerciceTimer || !nextExerciceName || !pauseResume || !skipButton || !stopWorkout) {
     return;
   }
 
-  workoutNameLabel.textContent = workout.name;
+  workoutNameLabel.textContent = workoutName;
   const random = params.random === 'true';
   const mode = params.mode === 'infinite' ? 'infinite' : 'full';
   const fullWorkout = mode === 'full';
 
-  let sequence = workout.exerciceIds.map(id => getExercice(data, id)).filter(Boolean);
+  if (sequence.length === 0) {
+    workoutNameLabel.textContent = 'No matching exercises';
+    globalTimer.textContent = '00:00';
+    currentExerciceName.textContent = 'None';
+    currentPhaseName.textContent = 'Complete';
+    exerciceTimer.textContent = '00:00';
+    return;
+  }
+
   if (fullWorkout && random) {
     sequence = shuffleArray(sequence);
   }
