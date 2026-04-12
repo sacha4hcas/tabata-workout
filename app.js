@@ -7,12 +7,7 @@ function parseQuery() {
 function isEmptyData(data) {
   return (
     !data ||
-    !data.profile ||
-    !data.profile.name ||
-    !Array.isArray(data.workouts) ||
-    data.workouts.length === 0 ||
-    !Array.isArray(data.exercices) ||
-    data.exercices.length === 0
+    !data.profile
   );
 }
 
