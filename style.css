@@ -90,6 +90,9 @@ a.small {
   margin-top: 12px;
   background: #f8fafc;
 }
+.highlighted {
+  background: #dbeafe !important;
+}
 .list-item div {
   min-width: 0;
 }
