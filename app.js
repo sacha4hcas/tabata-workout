@@ -298,6 +298,7 @@ function renderManageCategories(data) {
       item.innerHTML = `
         <div>${category}</div>
         <div class="list-item-actions">
+          <button class="button small" data-action="view-exercises" data-category="${category}">View Exercises</button>
           <button class="button small danger" data-index="${index}">Remove</button>
         </div>`;
       list.appendChild(item);
@@ -317,13 +318,48 @@ function renderManageCategories(data) {
   });
 
   list.addEventListener('click', event => {
-    if (event.target.classList.contains('danger')) {
-      const index = parseInt(event.target.dataset.index);
+    const button = event.target.closest('button');
+    if (!button) return;
+    const action = button.dataset.action;
+    const category = button.dataset.category;
+    const index = button.dataset.index;
+    if (action === 'view-exercises') {
+      showCategoryExercises(category);
+    } else if (button.classList.contains('danger')) {
+      const index = parseInt(button.dataset.index);
       data.profile.categories.splice(index, 1);
       saveData(data);
       updateList();
     }
   });
+}
+
+function showCategoryExercises(category) {
+  const section = document.querySelector('#categoryExercisesSection');
+  const nameSpan = document.querySelector('#selectedCategoryName');
+  const exercisesList = document.querySelector('#categoryExercisesList');
+  if (!section || !nameSpan || !exercisesList) return;
+
+  nameSpan.textContent = category;
+  exercisesList.innerHTML = '';
+
+  const exercises = data.exercices.filter(ex => Array.isArray(ex.categories) && ex.categories.includes(category));
+  if (exercises.length === 0) {
+    exercisesList.innerHTML = '<li>No exercises in this category.</li>';
+  } else {
+    exercises.forEach(ex => {
+      const item = document.createElement('li');
+      item.className = 'list-item';
+      item.innerHTML = `
+        <div>
+          <strong>${ex.name}</strong>
+          <div>${ex.description}</div>
+        </div>`;
+      exercisesList.appendChild(item);
+    });
+  }
+
+  section.style.display = 'block';
 }
 
 function renderManageWorkouts(data) {
