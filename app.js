@@ -314,8 +314,25 @@ function renderManageWorkouts(data) {
       </div>
       <div class="list-item-actions">
         <a class="button small" href="edit_workout.html?workoutId=${workout.id}">Edit Workout</a>
+        <button class="button small danger" data-action="delete-workout" data-id="${workout.id}">Delete</button>
       </div>`;
     list.appendChild(item);
+  });
+
+  list.addEventListener('click', event => {
+    const button = event.target.closest('button');
+    if (!button) return;
+    const action = button.dataset.action;
+    const workoutId = button.dataset.id;
+    if (action === 'delete-workout') {
+      if (!confirm('Delete this workout? This cannot be undone.')) return;
+      const index = data.workouts.findIndex(item => item.id === workoutId);
+      if (index !== -1) {
+        data.workouts.splice(index, 1);
+        saveData(data);
+        renderManageWorkouts(data);
+      }
+    }
   });
 }
 
@@ -333,8 +350,28 @@ function renderManageExercices(data) {
       </div>
       <div class="list-item-actions">
         <a class="button small" href="edit_exercice.html?exerciceId=${exercice.id}">Edit Exercice</a>
+        <button class="button small danger" data-action="delete-exercice" data-id="${exercice.id}">Delete</button>
       </div>`;
     list.appendChild(item);
+  });
+
+  list.addEventListener('click', event => {
+    const button = event.target.closest('button');
+    if (!button) return;
+    const action = button.dataset.action;
+    const exerciceId = button.dataset.id;
+    if (action === 'delete-exercice') {
+      if (!confirm('Delete this exercise from the profile? This will remove it from all workouts.')) return;
+      const exerciceIndex = data.exercices.findIndex(item => item.id === exerciceId);
+      if (exerciceIndex !== -1) {
+        data.exercices.splice(exerciceIndex, 1);
+        data.workouts.forEach(workout => {
+          workout.exerciceIds = workout.exerciceIds.filter(id => id !== exerciceId);
+        });
+        saveData(data);
+        renderManageExercices(data);
+      }
+    }
   });
 }
 
