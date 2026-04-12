@@ -88,6 +88,9 @@ function normalizeData(data) {
     if (!Array.isArray(ex.categories)) {
       ex.categories = [];
     }
+    if (typeof ex.completionCount !== 'number') {
+      ex.completionCount = 0;
+    }
   });
   if (!Array.isArray(data.workouts)) {
     data.workouts = [];
@@ -430,6 +433,7 @@ function renderManageExercices(data) {
       <div>
         <strong>${exercice.name}</strong>
         <div>${exercice.description}</div>
+        <div style="font-size: 12px; color: #64748b; margin-top: 4px;">Completed: ${exercice.completionCount || 0} times</div>
       </div>
       <div class="list-item-actions">
         <a class="button small" href="edit_exercice.html?exerciceId=${exercice.id}">Edit Exercice</a>
@@ -558,6 +562,12 @@ function renderEditExercice(data) {
     effortInput.value = exercice.effortDuration;
     restInput.value = exercice.restDuration;
     prepInput.value = exercice.prepDuration;
+  }
+
+  // Display completion count
+  const completionCountDisplay = document.querySelector('#completionCount');
+  if (completionCountDisplay) {
+    completionCountDisplay.textContent = exercice.completionCount || 0;
   }
 
   // Populate category tags for exercise
@@ -934,6 +944,13 @@ function renderWorkout(data) {
         remainingSeconds = getPhaseDuration(sequence[currentIndex], stage);
       } else if (stage === 'exercise') {
         incrementStat(data, 'Exercices done', 1);
+        const currentExercise = sequence[currentIndex];
+        if (currentExercise) {
+          if (typeof currentExercise.completionCount !== 'number') {
+            currentExercise.completionCount = 0;
+          }
+          currentExercise.completionCount += 1;
+        }
         saveData(data);
         stage = 'rest';
         remainingSeconds = getPhaseDuration(sequence[currentIndex], stage);
