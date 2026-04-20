@@ -3,31 +3,29 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Workout Done</title>
-  <link rel="stylesheet" href="style.css" />
+  <title>Manage Workouts</title>
+  <link rel="stylesheet" href="../Ressources/style.css" />
 </head>
-<body data-page="workout_done">
+<body data-page="manage_workouts">
   <header>
-    <h1>Workout Done</h1>
+    <h1>Manage Workouts</h1>
     <nav>
       <a class="nav-link" href="index.html">Home</a>
       <a class="nav-link" href="manage_profiles.html">Manage Profile</a>
       <a class="nav-link" href="manage_categories.html">Categories</a>
       <a class="nav-link" href="manage_workouts.html">Manage Workouts</a>
       <a class="nav-link" href="manage_exercices.html">Manage Exercices</a>
-      <a class="nav-link" href="stats.html">Stats</a>
     </nav>
   </header>
   <main class="page-card">
     <section>
-      <h2 id="workoutDoneTitle">Workout details</h2>
-      <div id="workoutDoneSummary"></div>
+      <h2>Workout List</h2>
+      <div id="workoutList" class="list-card"></div>
     </section>
     <section>
-      <h3>Exercises completed</h3>
-      <div id="exerciceDoneList" class="list-card"></div>
+      <a class="button" href="edit_workout.html">Create Workout</a>
     </section>
   </main>
-  <script src="app.js"></script>
+  <script src="../Script/app.js"></script>
 </body>
 </html>

@@ -1,14 +1,14 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Manage Exercices</title>
-  <link rel="stylesheet" href="style.css" />
+  <title>Edit Workout</title>
+  <link rel="stylesheet" href="../Ressources/style.css" />
 </head>
-<body data-page="manage_exercices">
+<body data-page="edit_workout">
   <header>
-    <h1>Manage Exercices</h1>
+    <h1 id="workoutTitle">Edit Workout</h1>
     <nav>
       <a class="nav-link" href="index.html">Home</a>
       <a class="nav-link" href="manage_profiles.html">Manage Profile</a>
@@ -19,13 +19,18 @@
   </header>
   <main class="page-card">
     <section>
+      <label for="workoutName">Workout name</label>
+      <input id="workoutName" type="text" placeholder="Workout name" />
+    </section>
+    <section>
       <h2>Exercise List</h2>
       <div id="exerciceList" class="list-card"></div>
     </section>
     <section>
-      <a class="button" href="edit_exercice.html">Create exercice</a>
+      <a id="addExisting" class="button" href="select_exercices.html">Add existing</a>
+      <a class="button secondary" href="edit_exercice.html">Add new</a>
     </section>
   </main>
-  <script src="app.js"></script>
+  <script src="../Script/app.js"></script>
 </body>
 </html>

@@ -1,14 +1,14 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Manage Profile</title>
-  <link rel="stylesheet" href="style.css" />
+  <title>Stats</title>
+  <link rel="stylesheet" href="../Ressources/style.css" />
 </head>
-<body data-page="manage_profiles">
+<body data-page="stats">
   <header>
-    <h1>Manage Profile</h1>
+    <h1>Stats</h1>
     <nav>
       <a class="nav-link" href="index.html">Home</a>
       <a class="nav-link" href="manage_profiles.html">Manage Profile</a>
@@ -19,20 +19,15 @@
   </header>
   <main class="page-card">
     <section>
-      <label for="profileName">Name</label>
-      <input id="profileName" type="text" placeholder="Enter profile name" />
+      <h2>Workout History</h2>
+      <div id="statsList" class="list-card"></div>
     </section>
     <section>
-      <a class="button" href="manage_workouts.html">Manage Workouts</a>
-      <a class="button" href="manage_exercices.html">Manage Exercices</a>
-    </section>
-    <section>
-      <label for="profileJsonData">Profile JSON</label>
-      <textarea id="profileJsonData" rows="8" placeholder="Paste profile JSON here"></textarea>
+      <label for="statsJsonData">Stats JSON</label>
+      <textarea id="statsJsonData" rows="10" placeholder="Stats JSON will appear here"></textarea>
       <div class="button-row">
         <button id="downloadJson" class="button">Download JSON</button>
         <button id="loadJson" class="button secondary">Load JSON</button>
-        <button id="loadSample" class="button secondary">Load Sample Data</button>
         <label class="file-label">
           <span class="button small">Choose file</span>
           <input id="importJsonFile" type="file" accept="application/json" />
@@ -40,6 +35,6 @@
       </div>
     </section>
   </main>
-  <script src="app.js"></script>
+  <script src="../Script/app.js"></script>
 </body>
 </html>

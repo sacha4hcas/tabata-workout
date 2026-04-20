@@ -1,4 +1,4 @@
-﻿const STORAGE_KEY = 'tabata_template_data';
+const STORAGE_KEY = 'tabata_template_data';
 
 function parseQuery() {
   return Object.fromEntries(new URLSearchParams(window.location.search).entries());
@@ -28,7 +28,7 @@ async function loadData() {
   }
 
   try {
-    const response = await fetch('sample_data.json');
+    const response = await fetch('../Data/sample_data.json');
     if (!response.ok) {
       throw new Error(`Sample data request failed: ${response.status}`);
     }
@@ -51,7 +51,7 @@ async function loadData() {
 
 async function loadSampleData() {
   try {
-    const response = await fetch('sample_data.json');
+    const response = await fetch('../Data/sample_data.json');
     if (!response.ok) {
       throw new Error(`Sample data request failed: ${response.status}`);
     }
@@ -120,7 +120,7 @@ function validateStatsJson(obj) {
 }
 
 function formatDateTime(value) {
-  if (!value) return '—';
+  if (!value) return '�';
   const date = new Date(value);
   return isNaN(date.getTime()) ? value : date.toLocaleString();
 }
@@ -717,8 +717,8 @@ function renderEditWorkout(data) {
         </div>
         <div class="list-item-actions">
           <a class="button small" href="edit_exercice.html?workoutId=${workout.id}&exerciceId=${exerciceId}">Edit Exercice</a>
-          <button class="button small" type="button" data-action="up" data-index="${index}">↑</button>
-          <button class="button small" type="button" data-action="down" data-index="${index}">↓</button>
+          <button class="button small" type="button" data-action="up" data-index="${index}">?</button>
+          <button class="button small" type="button" data-action="down" data-index="${index}">?</button>
         </div>`;
       list.appendChild(item);
     });
@@ -1010,7 +1010,12 @@ function renderWorkout(data) {
   const random = params.random === 'true';
   const mode = params.mode === 'infinite' ? 'infinite' : 'full';
   const fullWorkout = mode === 'full';
+  const PREP_PHASE_MEDIA = '../Ressources/preparation.webp';
+  const REST_PHASE_MEDIA = '../Ressources/rest.gif';
+  const DEFAULT_EFFORT_MEDIA = '../Ressources/workout.gif';
   const selectedCategories = categoriesParam ? categoriesParam.split(',').filter(Boolean) : [];
+  const useCategoryBalancedRandom = random && selectedCategories.length > 0;
+  const randomCategories = selectedCategories.filter(category => sequence.some(exercice => Array.isArray(exercice.categories) && exercice.categories.includes(category)));
   const workoutDoneId = `wd${Date.now()}`;
   const workoutDone = {
     id: workoutDoneId,
@@ -1071,12 +1076,56 @@ function renderWorkout(data) {
     return;
   }
 
-  if (fullWorkout && random) {
-    sequence = shuffleArray(sequence);
+  function pickRandomCategory(categories) {
+    if (!Array.isArray(categories) || categories.length === 0) return null;
+    return categories[Math.floor(Math.random() * categories.length)];
   }
 
-  const prepCountdownAudio = new Audio(encodeURI('countdown start workout.mp3'));
-  const effortCountdownAudio = new Audio(encodeURI('countdown end workout.mp3'));
+  function pickRandomExerciseFromCategory(category, sourceSequence) {
+    const candidates = sourceSequence.filter(exercice => Array.isArray(exercice.categories) && exercice.categories.includes(category));
+    if (candidates.length === 0) return null;
+    return candidates[Math.floor(Math.random() * candidates.length)];
+  }
+
+  function buildCategoryBalancedFullSequence(sourceSequence, categories) {
+    const remaining = [...sourceSequence];
+    const balanced = [];
+
+    while (remaining.length > 0) {
+      const activeCategories = categories.filter(category => remaining.some(exercice => Array.isArray(exercice.categories) && exercice.categories.includes(category)));
+      if (activeCategories.length === 0) {
+        const fallbackIndex = Math.floor(Math.random() * remaining.length);
+        balanced.push(remaining.splice(fallbackIndex, 1)[0]);
+        continue;
+      }
+
+      const chosenCategory = pickRandomCategory(activeCategories);
+      const chosenExercise = pickRandomExerciseFromCategory(chosenCategory, remaining);
+      if (!chosenExercise) {
+        const fallbackIndex = Math.floor(Math.random() * remaining.length);
+        balanced.push(remaining.splice(fallbackIndex, 1)[0]);
+        continue;
+      }
+
+      const chosenIndex = remaining.findIndex(exercice => exercice.id === chosenExercise.id);
+      if (chosenIndex >= 0) {
+        balanced.push(remaining.splice(chosenIndex, 1)[0]);
+      }
+    }
+
+    return balanced;
+  }
+
+  if (fullWorkout && random) {
+    if (useCategoryBalancedRandom && randomCategories.length > 0) {
+      sequence = buildCategoryBalancedFullSequence(sequence, randomCategories);
+    } else {
+      sequence = shuffleArray(sequence);
+    }
+  }
+
+  const prepCountdownAudio = new Audio(encodeURI('../Ressources/countdown start workout.mp3'));
+  const effortCountdownAudio = new Audio(encodeURI('../Ressources/countdown end workout.mp3'));
   prepCountdownAudio.preload = 'auto';
   effortCountdownAudio.preload = 'auto';
   prepCountdownAudio.load();
@@ -1187,16 +1236,10 @@ function renderWorkout(data) {
     phaseStage.classList.add('phase-complete');
   }
 
-  function renderMedia(exercice) {
-    if (exercice && exercice.mediaUrl) {
-      exerciceMedia.src = exercice.mediaUrl;
-      exerciceMedia.alt = exercice.name;
-      exerciceMediaHolder.style.display = '';
-    } else {
-      exerciceMedia.src = '';
-      exerciceMedia.alt = '';
-      exerciceMediaHolder.style.display = 'none';
-    }
+  function renderMedia() {
+    exerciceMedia.src = '';
+    exerciceMedia.alt = '';
+    exerciceMediaHolder.style.display = 'none';
   }
 
   function getNextExerciseName() {
@@ -1233,7 +1276,7 @@ function renderWorkout(data) {
     currentExerciceName.textContent = sequence[currentIndex] ? sequence[currentIndex].name : 'Finished';
     currentPhaseName.textContent = getPhaseLabel(stage);
     setPhaseState(stage);
-    renderMedia(sequence[currentIndex]);
+    renderMedia();
     nextExerciceName.textContent = getNextExerciseName();
     pauseResume.textContent = paused ? 'Resume' : 'Pause';
     triggerPhaseCountdownCues();
@@ -1274,7 +1317,18 @@ function renderWorkout(data) {
       }
     } else if (mode === 'infinite') {
       if (random) {
-        currentIndex = Math.floor(Math.random() * sequence.length);
+        if (useCategoryBalancedRandom && randomCategories.length > 0) {
+          const chosenCategory = pickRandomCategory(randomCategories);
+          const chosenExercise = pickRandomExerciseFromCategory(chosenCategory, sequence);
+          if (chosenExercise) {
+            const chosenIndex = sequence.findIndex(exercice => exercice.id === chosenExercise.id);
+            currentIndex = chosenIndex >= 0 ? chosenIndex : Math.floor(Math.random() * sequence.length);
+          } else {
+            currentIndex = Math.floor(Math.random() * sequence.length);
+          }
+        } else {
+          currentIndex = Math.floor(Math.random() * sequence.length);
+        }
       } else {
         currentIndex = (currentIndex + 1) % sequence.length;
       }
@@ -1394,8 +1448,8 @@ function renderButtonTest() {
   const log = document.querySelector('#audioTestLog');
   if (!startButton || !endButton || !stopButton || !primeButton || !volumeSlider || !volumeValue || !log) return;
 
-  const startAudio = new Audio(encodeURI('countdown start workout.mp3'));
-  const endAudio = new Audio(encodeURI('countdown end workout.mp3'));
+  const startAudio = new Audio(encodeURI('../Ressources/countdown start workout.mp3'));
+  const endAudio = new Audio(encodeURI('../Ressources/countdown end workout.mp3'));
   startAudio.preload = 'auto';
   endAudio.preload = 'auto';
   startAudio.load();
