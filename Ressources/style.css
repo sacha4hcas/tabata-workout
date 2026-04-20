@@ -177,6 +177,34 @@ label {
 .checkbox-group input {
   margin: 0;
 }
+.category-weight-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(180px, 260px);
+  gap: 12px;
+  align-items: center;
+}
+.category-weight-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0;
+  font-weight: 500;
+}
+.category-weight-control {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+.category-weight-slider {
+  width: 100%;
+  margin: 0;
+}
+.category-weight-value {
+  min-width: 14px;
+  text-align: right;
+  font-weight: 700;
+  color: #334155;
+}
 .timer-panel {
   display: flex;
   gap: 16px;
@@ -409,5 +437,8 @@ body[data-page="workout"] main {
   }
   .volume-control__value {
     text-align: center;
+  }
+  .category-weight-row {
+    grid-template-columns: 1fr;
   }
 }

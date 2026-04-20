@@ -897,9 +897,17 @@ function renderStartWorkout(data) {
       return;
     }
     categories.forEach(category => {
-      const label = document.createElement('label');
-      label.innerHTML = `<input type="checkbox" value="${category}" /> ${category}`;
-      categoriesCheckboxes.appendChild(label);
+      const row = document.createElement('div');
+      row.className = 'category-weight-row';
+      row.innerHTML = `
+        <label class="category-weight-label">
+          <input type="checkbox" value="${category}" /> ${category}
+        </label>
+        <div class="category-weight-control">
+          <input class="category-weight-slider" type="range" min="0" max="10" step="1" value="1" data-category="${category}" />
+          <span class="category-weight-value" data-category="${category}">1</span>
+        </div>`;
+      categoriesCheckboxes.appendChild(row);
     });
     syncSelectAllCategories();
   }
@@ -926,6 +934,14 @@ function renderStartWorkout(data) {
     if (!event.target.matches('input[type="checkbox"]')) return;
     syncSelectAllCategories();
   });
+  categoriesCheckboxes.addEventListener('input', event => {
+    if (!event.target.matches('.category-weight-slider')) return;
+    const category = event.target.dataset.category;
+    const valueLabel = categoriesCheckboxes.querySelector(`.category-weight-value[data-category="${category}"]`);
+    if (valueLabel) {
+      valueLabel.textContent = event.target.value;
+    }
+  });
 
   startButton.addEventListener('click', () => {
     const params = new URLSearchParams();
@@ -946,7 +962,16 @@ function renderStartWorkout(data) {
         alert('Please select at least one category.');
         return;
       }
+
+      const categoryWeights = {};
+      selectedCategories.forEach(category => {
+        const slider = categoriesCheckboxes.querySelector(`.category-weight-slider[data-category="${category}"]`);
+        const weight = slider ? Number(slider.value) : 1;
+        categoryWeights[category] = Number.isFinite(weight) ? weight : 1;
+      });
+
       params.set('categories', selectedCategories.join(','));
+      params.set('categoryWeights', JSON.stringify(categoryWeights));
     }
 
     window.location.href = `workout.html?${params.toString()}`;
@@ -972,6 +997,7 @@ function renderWorkout(data) {
   const params = parseQuery();
   const workoutId = params.workoutId;
   const categoriesParam = params.categories;
+  const categoryWeightsParam = params.categoryWeights;
   let workout = null;
   let workoutName = 'Category Workout';
   let sequence = [];
@@ -1014,6 +1040,17 @@ function renderWorkout(data) {
   const REST_PHASE_MEDIA = '../Ressources/rest.gif';
   const DEFAULT_EFFORT_MEDIA = '../Ressources/workout.gif';
   const selectedCategories = categoriesParam ? categoriesParam.split(',').filter(Boolean) : [];
+  let categoryWeights = {};
+  if (categoryWeightsParam) {
+    try {
+      const parsed = JSON.parse(categoryWeightsParam);
+      if (parsed && typeof parsed === 'object') {
+        categoryWeights = parsed;
+      }
+    } catch (error) {
+      categoryWeights = {};
+    }
+  }
   const useCategoryBalancedRandom = random && selectedCategories.length > 0;
   const randomCategories = selectedCategories.filter(category => sequence.some(exercice => Array.isArray(exercice.categories) && exercice.categories.includes(category)));
   const workoutDoneId = `wd${Date.now()}`;
@@ -1076,9 +1113,28 @@ function renderWorkout(data) {
     return;
   }
 
+  function getCategoryWeight(category) {
+    const rawWeight = Number(categoryWeights[category]);
+    if (!Number.isFinite(rawWeight) || rawWeight < 0) return 1;
+    return rawWeight;
+  }
+
   function pickRandomCategory(categories) {
     if (!Array.isArray(categories) || categories.length === 0) return null;
-    return categories[Math.floor(Math.random() * categories.length)];
+
+    const totalWeight = categories.reduce((sum, category) => sum + getCategoryWeight(category), 0);
+    if (totalWeight <= 0) {
+      return categories[Math.floor(Math.random() * categories.length)];
+    }
+
+    let target = Math.random() * totalWeight;
+    for (const category of categories) {
+      target -= getCategoryWeight(category);
+      if (target <= 0) {
+        return category;
+      }
+    }
+    return categories[categories.length - 1];
   }
 
   function pickRandomExerciseFromCategory(category, sourceSequence) {
