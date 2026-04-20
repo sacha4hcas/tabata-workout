@@ -15,13 +15,24 @@
       <a class="nav-link" href="manage_categories.html">Categories</a>
       <a class="nav-link" href="manage_workouts.html">Manage Workouts</a>
       <a class="nav-link" href="manage_exercices.html">Manage Exercices</a>
-      <a class="nav-link" href="stats.html">Stats</a>
     </nav>
   </header>
   <main class="page-card">
     <section>
-      <h2>Stats</h2>
+      <h2>Workout History</h2>
       <div id="statsList" class="list-card"></div>
+    </section>
+    <section>
+      <label for="statsJsonData">Stats JSON</label>
+      <textarea id="statsJsonData" rows="10" placeholder="Stats JSON will appear here"></textarea>
+      <div class="button-row">
+        <button id="downloadJson" class="button">Download JSON</button>
+        <button id="loadJson" class="button secondary">Load JSON</button>
+        <label class="file-label">
+          <span class="button small">Choose file</span>
+          <input id="importJsonFile" type="file" accept="application/json" />
+        </label>
+      </div>
     </section>
   </main>
   <script src="app.js"></script>

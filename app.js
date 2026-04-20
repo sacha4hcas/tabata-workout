@@ -18,7 +18,6 @@ async function loadData() {
       const data = JSON.parse(stored);
       normalizeData(data);
       if (!isEmptyData(data)) {
-        normalizeStats(data);
         saveData(data);
         return data;
       }
@@ -35,7 +34,6 @@ async function loadData() {
     }
     const sample = await response.json();
     normalizeData(sample);
-    normalizeStats(sample);
     saveData(sample);
     return sample;
   } catch (error) {
@@ -43,11 +41,9 @@ async function loadData() {
     const fallback = {
       profile: { name: 'Guest', categories: [] },
       workouts: [],
-      exercices: [],
-      stats: []
+      exercices: []
     };
     normalizeData(fallback);
-    normalizeStats(fallback);
     saveData(fallback);
     return fallback;
   }
@@ -61,7 +57,6 @@ async function loadSampleData() {
     }
     const sample = await response.json();
     normalizeData(sample);
-    normalizeStats(sample);
     saveData(sample);
     return sample;
   } catch (error) {
@@ -74,12 +69,278 @@ function saveData(data) {
   localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
 }
 
+const STATS_STORAGE_KEY = 'tabata_stats_data';
+
+function loadStatsData() {
+  const stored = localStorage.getItem(STATS_STORAGE_KEY);
+  if (!stored) {
+    return { workoutsDone: [], exercicesDone: [] };
+  }
+  try {
+    const parsed = JSON.parse(stored);
+    return normalizeStatsData(parsed);
+  } catch (error) {
+    console.warn('Invalid stats storage, resetting history.');
+    return { workoutsDone: [], exercicesDone: [] };
+  }
+}
+
+function saveStatsData(stats) {
+  localStorage.setItem(STATS_STORAGE_KEY, JSON.stringify(stats));
+}
+
+function normalizeStatsData(parsed) {
+  if (!parsed || typeof parsed !== 'object') {
+    return { workoutsDone: [], exercicesDone: [] };
+  }
+  const normalized = {
+    workoutsDone: Array.isArray(parsed.workoutsDone) ? parsed.workoutsDone : [],
+    exercicesDone: Array.isArray(parsed.exercicesDone) ? parsed.exercicesDone : []
+  };
+  if (Array.isArray(parsed) && parsed.length > 0) {
+    normalized.workoutsDone = parsed;
+  }
+  return normalized;
+}
+
+function validateStatsJson(obj) {
+  if (Array.isArray(obj)) {
+    return null;
+  }
+  if (!obj || typeof obj !== 'object') {
+    return 'Stats JSON must be an array or object.';
+  }
+  if (!Array.isArray(obj.workoutsDone)) {
+    return 'Stats object must include workoutsDone array.';
+  }
+  if (!Array.isArray(obj.exercicesDone)) {
+    return 'Stats object must include exercicesDone array.';
+  }
+  return null;
+}
+
+function formatDateTime(value) {
+  if (!value) return '—';
+  const date = new Date(value);
+  return isNaN(date.getTime()) ? value : date.toLocaleString();
+}
+
+function renderBanner(data) {
+  const header = document.querySelector('header');
+  if (!header) return;
+  let banner = document.querySelector('#bannerBar');
+  if (!banner) {
+    banner = document.createElement('div');
+    banner.id = 'bannerBar';
+    banner.className = 'banner-bar';
+    header.insertAdjacentElement('afterend', banner);
+  }
+  const bannerText = data.profile.banner || `Profile: ${data.profile.name}`;
+  banner.innerHTML = `
+    <div class="banner-content">${bannerText}</div>
+    <div class="banner-actions">
+      <a class="button small" href="stats.html">Stats</a>
+    </div>`;
+}
+
+function renderStatsPage(data) {
+  const list = document.querySelector('#statsList');
+  const textarea = document.querySelector('#statsJsonData');
+  const downloadButton = document.querySelector('#downloadJson');
+  const loadButton = document.querySelector('#loadJson');
+  const fileInput = document.querySelector('#importJsonFile');
+  if (textarea) {
+    textarea.value = JSON.stringify(statsData, null, 2);
+  }
+
+  function updateList() {
+    if (!list) return;
+    list.innerHTML = '';
+    if (!statsData.workoutsDone || statsData.workoutsDone.length === 0) {
+      list.innerHTML = '<p>No workouts completed yet.</p>';
+      return;
+    }
+    statsData.workoutsDone.slice().reverse().forEach(workout => {
+      const item = document.createElement('div');
+      item.className = 'list-item';
+      item.innerHTML = `
+        <div>
+          <strong>${workout.type === 'workout' ? 'Workout' : 'Category workout'}</strong>
+          <div>ID: ${workout.id}</div>
+          <div>Profile: ${workout.profileName || 'Unknown'}</div>
+          <div>Selected workout: ${workout.selectedWorkout || 'N/A'}</div>
+          <div>Selected categories: ${Array.isArray(workout.selectedCategories) ? workout.selectedCategories.join(', ') : 'N/A'}</div>
+          <div>Start: ${formatDateTime(workout.startDateTime)}</div>
+          <div>End: ${formatDateTime(workout.endDateTime)}</div>
+        </div>
+        <div class="list-item-actions">
+          <button class="button small" data-action="view-workout" data-id="${workout.id}">View exercises</button>
+        </div>`;
+      list.appendChild(item);
+    });
+  }
+
+  updateList();
+
+  if (downloadButton) {
+    downloadButton.addEventListener('click', () => {
+      const json = JSON.stringify(statsData, null, 2);
+      const blob = new Blob([json], { type: 'application/json' });
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href = url;
+      link.download = 'stats.json';
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      URL.revokeObjectURL(url);
+    });
+  }
+
+  if (loadButton) {
+    loadButton.addEventListener('click', () => {
+      if (!textarea) return;
+      try {
+        const parsed = JSON.parse(textarea.value);
+        const validationError = validateStatsJson(parsed);
+        if (validationError) {
+          alert(validationError);
+          return;
+        }
+        statsData = normalizeStatsData(parsed);
+        saveStatsData(statsData);
+        updateList();
+        alert('Stats JSON loaded successfully.');
+      } catch (error) {
+        alert('Invalid JSON format.');
+      }
+    });
+  }
+
+  if (fileInput) {
+    fileInput.addEventListener('change', event => {
+      const file = event.target.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = () => {
+        try {
+          const parsed = JSON.parse(reader.result);
+          const validationError = validateStatsJson(parsed);
+          if (validationError) {
+            alert(validationError);
+            return;
+          }
+          statsData = normalizeStatsData(parsed);
+          saveStatsData(statsData);
+          if (textarea) textarea.value = JSON.stringify(statsData, null, 2);
+          updateList();
+          alert('Stats JSON loaded successfully.');
+        } catch (error) {
+          alert('Invalid JSON format.');
+        }
+      };
+      reader.readAsText(file);
+    });
+  }
+
+  if (list) {
+    list.addEventListener('click', event => {
+      const button = event.target.closest('button');
+      if (!button) return;
+      const workoutId = button.dataset.id;
+      if (button.dataset.action === 'view-workout') {
+        window.location.href = `workout_done.html?id=${workoutId}`;
+      }
+    });
+  }
+}
+
+function renderWorkoutDonePage(data) {
+  const params = parseQuery();
+  const workoutDoneId = params.id;
+  const title = document.querySelector('#workoutDoneTitle');
+  const summary = document.querySelector('#workoutDoneSummary');
+  const list = document.querySelector('#exerciceDoneList');
+  if (!title || !summary || !list) return;
+
+  const workout = statsData.workoutsDone.find(item => item.id === workoutDoneId);
+  if (!workout) {
+    title.textContent = 'Workout not found';
+    summary.innerHTML = '<p>Unable to find workout history for this id.</p>';
+    list.innerHTML = '';
+    return;
+  }
+
+  title.textContent = `Workout done: ${workout.id}`;
+  summary.innerHTML = `
+    <div><strong>Type:</strong> ${workout.type === 'workout' ? 'Workout' : 'Category'}</div>
+    <div><strong>Profile:</strong> ${workout.profileName || 'Unknown'}</div>
+    <div><strong>Selected workout:</strong> ${workout.selectedWorkout || 'N/A'}</div>
+    <div><strong>Selected categories:</strong> ${Array.isArray(workout.selectedCategories) ? workout.selectedCategories.join(', ') : 'N/A'}</div>
+    <div><strong>Start:</strong> ${formatDateTime(workout.startDateTime)}</div>
+    <div><strong>End:</strong> ${formatDateTime(workout.endDateTime)}</div>`;
+
+  const exercices = statsData.exercicesDone.filter(item => item.workoutDoneId === workoutDoneId);
+  list.innerHTML = '';
+  if (exercices.length === 0) {
+    list.innerHTML = '<p>No exercise history recorded for this workout.</p>';
+    return;
+  }
+  exercices.forEach(ex => {
+    const exercice = getExercice(data, ex.exerciceId);
+    const item = document.createElement('div');
+    item.className = 'list-item';
+    item.innerHTML = `
+      <div>
+        <strong>${exercice ? exercice.name : ex.exerciceId}</strong>
+        <div>Exercise ID: ${ex.exerciceId}</div>
+        <div>Skipped: ${ex.skipped ? 'Yes' : 'No'}</div>
+        <div>Start: ${formatDateTime(ex.startDateTime)}</div>
+        <div>End: ${formatDateTime(ex.endDateTime)}</div>
+      </div>`;
+    list.appendChild(item);
+  });
+}
+
+function getWorkoutDoneById(id) {
+  return statsData.workoutsDone.find(item => item.id === id);
+}
+
+function getExercicesDoneForWorkout(id) {
+  return statsData.exercicesDone.filter(item => item.workoutDoneId === id);
+}
+
+function getWorkoutDoneExercisesCount(workoutId) {
+  return getExercicesDoneForWorkout(workoutId).length;
+}
+
+function getStatsDataCopy() {
+  return JSON.parse(JSON.stringify(statsData));
+}
+
+function appendStatsJsonToTextarea(textarea) {
+  if (!textarea) return;
+  textarea.value = JSON.stringify(statsData, null, 2);
+}
+
+function deleteStatsData() {
+  statsData = { workoutsDone: [], exercicesDone: [] };
+  saveStatsData(statsData);
+}
+
+function initializeStatsData() {
+  statsData = loadStatsData();
+}
+
 function normalizeData(data) {
   if (!data.profile || typeof data.profile !== 'object') {
-    data.profile = { name: 'Guest', categories: [] };
+    data.profile = { name: 'Guest', banner: '', categories: [] };
   }
   if (!Array.isArray(data.profile.categories)) {
     data.profile.categories = [];
+  }
+  if (typeof data.profile.banner !== 'string') {
+    data.profile.banner = '';
   }
   if (!Array.isArray(data.exercices)) {
     data.exercices = [];
@@ -95,60 +356,13 @@ function normalizeData(data) {
   if (!Array.isArray(data.workouts)) {
     data.workouts = [];
   }
-  if (!Array.isArray(data.stats)) {
-    data.stats = [];
-  }
-}
-
-function getStat(data, label) {
-  if (!Array.isArray(data.stats)) {
-    data.stats = [];
-  }
-  return data.stats.find(stat => stat.label === label);
-}
-
-function incrementStat(data, label, amount = 1) {
-  if (!Array.isArray(data.stats)) {
-    data.stats = [];
-  }
-  let stat = getStat(data, label);
-  if (!stat) {
-    stat = { label, value: 0 };
-    data.stats.push(stat);
-  }
-  stat.value = (stat.value || 0) + amount;
-}
-
-function normalizeStats(data) {
-  if (!Array.isArray(data.stats)) {
-    data.stats = [];
-  }
-  const totalExercices = Array.isArray(data.exercices) ? data.exercices.length : 0;
-  const defaults = [
-    { label: 'Workouts completed', value: 0 },
-    { label: 'Exercices done', value: 0 },
-    { label: 'Total exercices', value: totalExercices }
-  ];
-  defaults.forEach(defaultStat => {
-    const existing = getStat(data, defaultStat.label);
-    if (existing) {
-      if (defaultStat.label === 'Total exercices') {
-        existing.value = totalExercices;
-      } else if (typeof existing.value !== 'number') {
-        existing.value = defaultStat.value;
-      }
-    } else {
-      data.stats.push({ ...defaultStat });
-    }
-  });
 }
 
 function getExportProfile(data) {
   return {
     profile: data.profile,
     workouts: data.workouts,
-    exercices: data.exercices,
-    stats: data.stats
+    exercices: data.exercices
   };
 }
 
@@ -178,9 +392,6 @@ function validateProfileJson(obj) {
   if (!Array.isArray(obj.exercices)) {
     return 'Exercices must be an array.';
   }
-  if (obj.stats && !Array.isArray(obj.stats)) {
-    return 'Stats must be an array if present.';
-  }
   return null;
 }
 
@@ -198,8 +409,7 @@ function loadProfileJson(data, jsonText) {
   data.profile = parsed.profile;
   data.workouts = parsed.workouts;
   data.exercices = parsed.exercices;
-  data.stats = parsed.stats || [];
-  normalizeStats(data);
+  normalizeData(data);
   saveData(data);
 }
 
@@ -647,11 +857,12 @@ function renderStartWorkout(data) {
   const workoutSection = document.querySelector('#workoutSection');
   const categoriesSection = document.querySelector('#categoriesSection');
   const workoutSelect = document.querySelector('#workoutSelect');
+  const selectAllCategories = document.querySelector('#selectAllCategories');
   const categoriesCheckboxes = document.querySelector('#categoriesCheckboxes');
   const modeFull = document.querySelector('#modeFull');
   const modeInfinite = document.querySelector('#modeInfinite');
   const startButton = document.querySelector('#startWorkout');
-  if (!typeWorkout || !typeCategories || !workoutSection || !categoriesSection || !workoutSelect || !categoriesCheckboxes || !modeFull || !modeInfinite || !startButton) return;
+  if (!typeWorkout || !typeCategories || !workoutSection || !categoriesSection || !workoutSelect || !selectAllCategories || !categoriesCheckboxes || !modeFull || !modeInfinite || !startButton) return;
 
   data.workouts.forEach(workout => {
     const option = document.createElement('option');
@@ -660,11 +871,29 @@ function renderStartWorkout(data) {
     workoutSelect.appendChild(option);
   });
 
+  function syncSelectAllCategories() {
+    const categoryInputs = Array.from(categoriesCheckboxes.querySelectorAll('input[type="checkbox"]'));
+    const checkedCount = categoryInputs.filter(input => input.checked).length;
+    const hasCategories = categoryInputs.length > 0;
+    selectAllCategories.disabled = !hasCategories;
+    selectAllCategories.checked = hasCategories && checkedCount === categoryInputs.length;
+    selectAllCategories.indeterminate = hasCategories && checkedCount > 0 && checkedCount < categoryInputs.length;
+  }
+
+  function setAllCategoriesChecked(checked) {
+    const categoryInputs = categoriesCheckboxes.querySelectorAll('input[type="checkbox"]');
+    categoryInputs.forEach(input => {
+      input.checked = checked;
+    });
+    syncSelectAllCategories();
+  }
+
   function updateCategories() {
     categoriesCheckboxes.innerHTML = '';
     const categories = Array.isArray(data.profile.categories) ? data.profile.categories : [];
     if (categories.length === 0) {
       categoriesCheckboxes.textContent = 'No categories available. Add some first.';
+      syncSelectAllCategories();
       return;
     }
     categories.forEach(category => {
@@ -672,6 +901,7 @@ function renderStartWorkout(data) {
       label.innerHTML = `<input type="checkbox" value="${category}" /> ${category}`;
       categoriesCheckboxes.appendChild(label);
     });
+    syncSelectAllCategories();
   }
 
   function toggleSections() {
@@ -689,6 +919,13 @@ function renderStartWorkout(data) {
 
   typeWorkout.addEventListener('change', toggleSections);
   typeCategories.addEventListener('change', toggleSections);
+  selectAllCategories.addEventListener('change', () => {
+    setAllCategoriesChecked(selectAllCategories.checked);
+  });
+  categoriesCheckboxes.addEventListener('change', event => {
+    if (!event.target.matches('input[type="checkbox"]')) return;
+    syncSelectAllCategories();
+  });
 
   startButton.addEventListener('click', () => {
     const params = new URLSearchParams();
@@ -763,7 +1000,8 @@ function renderWorkout(data) {
   const pauseResume = document.querySelector('#pauseResume');
   const skipButton = document.querySelector('#skipExercise');
   const stopWorkout = document.querySelector('#stopWorkout');
-  if (!workoutNameLabel || !globalTimer || !currentExerciceName || !currentPhaseName || !exerciceMedia || !exerciceMediaHolder || !exerciceTimer || !nextExerciceName || !pauseResume || !skipButton || !stopWorkout) {
+  const workoutDoneActions = document.querySelector('#workoutDoneActions');
+  if (!workoutNameLabel || !globalTimer || !currentExerciceName || !currentPhaseName || !exerciceMedia || !exerciceMediaHolder || !exerciceTimer || !nextExerciceName || !pauseResume || !skipButton || !stopWorkout || !workoutDoneActions) {
     return;
   }
 
@@ -771,6 +1009,57 @@ function renderWorkout(data) {
   const random = params.random === 'true';
   const mode = params.mode === 'infinite' ? 'infinite' : 'full';
   const fullWorkout = mode === 'full';
+  const selectedCategories = categoriesParam ? categoriesParam.split(',').filter(Boolean) : [];
+  const workoutDoneId = `wd${Date.now()}`;
+  const workoutDone = {
+    id: workoutDoneId,
+    type: workoutId ? 'workout' : 'category',
+    selectedCategories,
+    selectedWorkout: workoutId || '',
+    startDateTime: new Date().toISOString(),
+    endDateTime: null,
+    profileName: data.profile.name || 'Guest'
+  };
+  const exerciceSessions = [];
+  let currentExerciseSession = null;
+
+  function closeCurrentExerciseSession(skipped) {
+    if (!currentExerciseSession || currentExerciseSession.endDateTime) return;
+    currentExerciseSession.skipped = Boolean(skipped);
+    currentExerciseSession.endDateTime = new Date().toISOString();
+    exerciceSessions.push(currentExerciseSession);
+    currentExerciseSession = null;
+  }
+
+  function startExerciseSession(exercice) {
+    if (!exercice) return;
+    closeCurrentExerciseSession(true);
+    currentExerciseSession = {
+      exerciceId: exercice.id,
+      workoutDoneId,
+      skipped: false,
+      startDateTime: new Date().toISOString(),
+      endDateTime: null
+    };
+  }
+
+  function saveWorkoutStats() {
+    workoutDone.endDateTime = new Date().toISOString();
+    statsData.workoutsDone.push(workoutDone);
+    statsData.exercicesDone.push(...exerciceSessions);
+    saveStatsData(statsData);
+  }
+
+  function showWorkoutDoneButton() {
+    workoutDoneActions.innerHTML = '';
+    const button = document.createElement('button');
+    button.className = 'button';
+    button.textContent = 'View workout details';
+    button.addEventListener('click', () => {
+      window.location.href = `workout_done.html?id=${workoutDoneId}`;
+    });
+    workoutDoneActions.appendChild(button);
+  }
 
   if (sequence.length === 0) {
     workoutNameLabel.textContent = 'No matching exercises';
@@ -853,6 +1142,9 @@ function renderWorkout(data) {
   const totalSeconds = fullWorkout ? sequence.reduce((sum, item) => sum + getPhaseDuration(item, 'prep') + getPhaseDuration(item, 'exercise') + getPhaseDuration(item, 'rest'), 0) : 0;
   let elapsedSeconds = 0;
   let globalTimerValue = fullWorkout ? totalSeconds : 0;
+  if (sequence.length > 0) {
+    startExerciseSession(sequence[0]);
+  }
   let timerInterval = null;
   let paused = false;
 
@@ -872,20 +1164,26 @@ function renderWorkout(data) {
 
   function stopSession() {
     clearInterval(timerInterval);
-    window.location.href = 'start_workout.html';
+    closeCurrentExerciseSession(true);
+    saveWorkoutStats();
+    currentExerciceName.textContent = 'Workout stopped';
+    currentPhaseName.textContent = 'Stopped';
+    exerciceTimer.textContent = '00:00';
+    nextExerciceName.textContent = 'Stopped';
+    exerciceMediaHolder.style.display = 'none';
+    showWorkoutDoneButton();
   }
 
   function completeWorkout() {
-    if (fullWorkout && sequence.length > 0) {
-      incrementStat(data, 'Workouts completed', 1);
-      saveData(data);
-    }
+    closeCurrentExerciseSession(false);
+    saveWorkoutStats();
     clearInterval(timerInterval);
     currentExerciceName.textContent = 'Workout complete';
     currentPhaseName.textContent = 'Complete';
     exerciceTimer.textContent = '00:00';
     nextExerciceName.textContent = 'Done';
     exerciceMediaHolder.style.display = 'none';
+    showWorkoutDoneButton();
   }
 
   function pickNextExercise() {
@@ -924,6 +1222,7 @@ function renderWorkout(data) {
       globalTimerValue = Math.max(0, globalTimerValue - skipDelta);
     }
 
+    closeCurrentExerciseSession(true);
     if (!pickNextExercise()) {
       completeWorkout();
       return;
@@ -943,7 +1242,6 @@ function renderWorkout(data) {
         stage = 'exercise';
         remainingSeconds = getPhaseDuration(sequence[currentIndex], stage);
       } else if (stage === 'exercise') {
-        incrementStat(data, 'Exercices done', 1);
         const currentExercise = sequence[currentIndex];
         if (currentExercise) {
           if (typeof currentExercise.completionCount !== 'number') {
@@ -951,6 +1249,7 @@ function renderWorkout(data) {
           }
           currentExercise.completionCount += 1;
         }
+        closeCurrentExerciseSession(false);
         saveData(data);
         stage = 'rest';
         remainingSeconds = getPhaseDuration(sequence[currentIndex], stage);
@@ -998,21 +1297,12 @@ function renderWorkout(data) {
   timerInterval = setInterval(tick, 1000);
 }
 
-function renderStats(data) {
-  const list = document.querySelector('#statsList');
-  if (!list) return;
-  list.innerHTML = '';
-  data.stats.forEach(stat => {
-    const item = document.createElement('div');
-    item.className = 'list-item';
-    item.innerHTML = `<div><strong>${stat.label}</strong><div>${stat.value}</div></div>`;
-    list.appendChild(item);
-  });
-}
-
 let data;
+let statsData;
 window.addEventListener('DOMContentLoaded', async () => {
   data = await loadData();
+  statsData = loadStatsData();
+  renderBanner(data);
   highlightNavigation();
   const page = document.body.dataset.page;
   if (!page) return;
@@ -1026,5 +1316,6 @@ window.addEventListener('DOMContentLoaded', async () => {
   if (page === 'select_exercices') renderSelectExercices(data);
   if (page === 'start_workout') renderStartWorkout(data);
   if (page === 'workout') renderWorkout(data);
-  if (page === 'stats') renderStats(data);
+  if (page === 'stats') renderStatsPage(data);
+  if (page === 'workout_done') renderWorkoutDonePage(data);
 });

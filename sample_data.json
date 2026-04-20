@@ -1,6 +1,7 @@
 {
   "profile": {
     "name": "Guest",
+    "banner": "",
     "categories": [
       "Badminton",
       "Calisthenics",
@@ -678,20 +679,6 @@
         "Rééducation",
         "Haut du corps"
       ]
-    }
-  ],
-  "stats": [
-    {
-      "label": "Workouts completed",
-      "value": 0
-    },
-    {
-      "label": "Exercices done",
-      "value": 0
-    },
-    {
-      "label": "Total exercices",
-      "value": 51
     }
   ]
 }

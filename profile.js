@@ -2,7 +2,6 @@ class Profile {
     constructor(name) {
         this.name = name;
         this.workouts = [];
-        this.stats = [];
     }
 
     addWorkout(workout) {
