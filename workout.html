@@ -17,41 +17,41 @@
       <a class="nav-link" href="manage_exercices.html">Manage Exercices</a>
     </nav>
   </header>
-  <main class="page-card">
-    <section>
-      <h2 id="workoutNameLabel">Workout Name</h2>
-      <div class="timer-panel">
-        <div>
-          <strong>Global timer</strong>
-          <div id="globalTimer" class="timer-value">00:00</div>
+  <main class="page-card workout-shell">
+    <section class="workout-hero">
+      <p class="workout-kicker">Active session</p>
+      <h2 id="workoutNameLabel" class="workout-title">Workout Name</h2>
+      <div class="workout-summary">
+        <article class="metric-card">
+          <span class="metric-label">Global timer</span>
+          <div id="globalTimer" class="timer-value timer-value--hero">00:00</div>
+        </article>
+      </div>
+    </section>
+    <section id="phaseStage" class="phase-stage">
+      <p class="phase-stage__label">Current phase</p>
+      <div id="currentPhaseName" class="phase-stage__name">Preparation</div>
+      <div id="exerciceTimer" class="phase-stage__timer">00:00</div>
+    </section>
+    <section class="workout-grid">
+      <article class="workout-card workout-card--current">
+        <p class="workout-card__label">Current exercise</p>
+        <div id="currentExerciceName" class="workout-card__value"></div>
+        <div id="exerciceMediaHolder" class="workout-media workout-media--card">
+          <img id="exerciceMedia" src="" alt="Exercise media" />
         </div>
-      </div>
+      </article>
+      <article class="workout-card workout-card--next">
+        <p class="workout-card__label">Next exercise</p>
+        <div id="nextExerciceName" class="workout-card__value workout-card__value--muted"></div>
+      </article>
     </section>
-    <section>
-      <h3>Current exercice</h3>
-      <div id="currentExerciceName" class="workout-block"></div>
-      <div id="exerciceMediaHolder" class="workout-media">
-        <img id="exerciceMedia" src="" alt="Exercise media" />
-      </div>
-      <div>
-        <strong>Current phase</strong>
-        <div id="currentPhaseName" class="next-exercice"></div>
-      </div>
-      <div>
-        <strong>Exercice timer</strong>
-        <div id="exerciceTimer" class="timer-value">00:00</div>
-      </div>
-      <div>
-        <strong>Next exercice</strong>
-        <div id="nextExerciceName" class="next-exercice"></div>
-      </div>
-    </section>
-    <section class="button-row">
+    <section class="button-row workout-controls">
       <button id="pauseResume" class="button">Pause</button>
       <button id="skipExercise" class="button secondary">Skip</button>
       <button id="stopWorkout" class="button secondary">Stop</button>
     </section>
-    <section id="workoutDoneActions" class="button-row"></section>
+    <section id="workoutDoneActions" class="button-row workout-controls"></section>
   </main>
   <script src="app.js"></script>
 </body>

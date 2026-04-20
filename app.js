@@ -993,6 +993,7 @@ function renderWorkout(data) {
   const globalTimer = document.querySelector('#globalTimer');
   const currentExerciceName = document.querySelector('#currentExerciceName');
   const currentPhaseName = document.querySelector('#currentPhaseName');
+  const phaseStage = document.querySelector('#phaseStage');
   const exerciceMedia = document.querySelector('#exerciceMedia');
   const exerciceMediaHolder = document.querySelector('#exerciceMediaHolder');
   const exerciceTimer = document.querySelector('#exerciceTimer');
@@ -1001,7 +1002,7 @@ function renderWorkout(data) {
   const skipButton = document.querySelector('#skipExercise');
   const stopWorkout = document.querySelector('#stopWorkout');
   const workoutDoneActions = document.querySelector('#workoutDoneActions');
-  if (!workoutNameLabel || !globalTimer || !currentExerciceName || !currentPhaseName || !exerciceMedia || !exerciceMediaHolder || !exerciceTimer || !nextExerciceName || !pauseResume || !skipButton || !stopWorkout || !workoutDoneActions) {
+  if (!workoutNameLabel || !globalTimer || !currentExerciceName || !currentPhaseName || !phaseStage || !exerciceMedia || !exerciceMediaHolder || !exerciceTimer || !nextExerciceName || !pauseResume || !skipButton || !stopWorkout || !workoutDoneActions) {
     return;
   }
 
@@ -1107,9 +1108,30 @@ function renderWorkout(data) {
 
   function getPhaseLabel(phase) {
     if (phase === 'prep') return 'Preparation';
-    if (phase === 'exercise') return 'Exercise';
+    if (phase === 'exercise') return 'Effort';
     if (phase === 'rest') return 'Rest';
     return 'Complete';
+  }
+
+  function setPhaseState(phase) {
+    phaseStage.classList.remove('phase-prep', 'phase-effort', 'phase-rest', 'phase-complete', 'phase-stopped');
+    if (phase === 'prep') {
+      phaseStage.classList.add('phase-prep');
+      return;
+    }
+    if (phase === 'exercise') {
+      phaseStage.classList.add('phase-effort');
+      return;
+    }
+    if (phase === 'rest') {
+      phaseStage.classList.add('phase-rest');
+      return;
+    }
+    if (phase === 'stopped') {
+      phaseStage.classList.add('phase-stopped');
+      return;
+    }
+    phaseStage.classList.add('phase-complete');
   }
 
   function renderMedia(exercice) {
@@ -1157,6 +1179,7 @@ function renderWorkout(data) {
     exerciceTimer.textContent = formatTime(Math.max(0, remainingSeconds));
     currentExerciceName.textContent = sequence[currentIndex] ? sequence[currentIndex].name : 'Finished';
     currentPhaseName.textContent = getPhaseLabel(stage);
+    setPhaseState(stage);
     renderMedia(sequence[currentIndex]);
     nextExerciceName.textContent = getNextExerciseName();
     pauseResume.textContent = paused ? 'Resume' : 'Pause';
@@ -1168,6 +1191,7 @@ function renderWorkout(data) {
     saveWorkoutStats();
     currentExerciceName.textContent = 'Workout stopped';
     currentPhaseName.textContent = 'Stopped';
+    setPhaseState('stopped');
     exerciceTimer.textContent = '00:00';
     nextExerciceName.textContent = 'Stopped';
     exerciceMediaHolder.style.display = 'none';
@@ -1180,6 +1204,7 @@ function renderWorkout(data) {
     clearInterval(timerInterval);
     currentExerciceName.textContent = 'Workout complete';
     currentPhaseName.textContent = 'Complete';
+    setPhaseState('complete');
     exerciceTimer.textContent = '00:00';
     nextExerciceName.textContent = 'Done';
     exerciceMediaHolder.style.display = 'none';

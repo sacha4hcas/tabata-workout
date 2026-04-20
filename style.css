@@ -203,11 +203,182 @@ label {
   border-radius: 12px;
   display: block;
 }
+body[data-page="workout"] {
+  background:
+    radial-gradient(circle at top, rgba(248, 250, 252, 0.95), rgba(226, 232, 240, 0.92) 35%, rgba(203, 213, 225, 0.88) 100%),
+    linear-gradient(180deg, #f8fafc 0%, #e2e8f0 100%);
+}
+body[data-page="workout"] main {
+  max-width: 860px;
+  margin: 32px auto 48px;
+}
+.workout-shell {
+  padding: 36px;
+}
+.workout-hero {
+  text-align: center;
+}
+.workout-kicker {
+  margin: 0;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: #64748b;
+}
+.workout-title {
+  margin: 12px 0 0;
+  font-size: clamp(32px, 4vw, 44px);
+  line-height: 1.05;
+  color: #0f172a;
+}
+.workout-summary {
+  display: flex;
+  justify-content: center;
+  margin-top: 22px;
+}
+.metric-card {
+  min-width: min(100%, 280px);
+  padding: 18px 24px;
+  border-radius: 22px;
+  background: linear-gradient(180deg, #ffffff 0%, #f8fafc 100%);
+  border: 1px solid #dbe4f0;
+  box-shadow: 0 18px 40px rgba(15, 23, 42, 0.08);
+  text-align: center;
+}
+.metric-label {
+  display: block;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: #64748b;
+}
+.timer-value--hero {
+  font-size: clamp(40px, 8vw, 64px);
+  margin-top: 12px;
+}
+.phase-stage {
+  --phase-bg: linear-gradient(135deg, #fff7cc 0%, #fde68a 100%);
+  --phase-border: #facc15;
+  --phase-ink: #713f12;
+  margin-top: 28px;
+  padding: 28px 24px;
+  border-radius: 28px;
+  border: 1px solid var(--phase-border);
+  background: var(--phase-bg);
+  box-shadow: 0 20px 45px rgba(15, 23, 42, 0.12);
+  text-align: center;
+}
+.phase-stage__label {
+  margin: 0;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: rgba(15, 23, 42, 0.62);
+}
+.phase-stage__name {
+  margin-top: 10px;
+  font-size: clamp(30px, 6vw, 54px);
+  font-weight: 800;
+  line-height: 0.95;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  color: var(--phase-ink);
+}
+.phase-stage__timer {
+  margin-top: 14px;
+  font-size: clamp(48px, 10vw, 88px);
+  font-weight: 800;
+  line-height: 1;
+  color: var(--phase-ink);
+}
+.phase-prep {
+  --phase-bg: linear-gradient(135deg, #fff8bf 0%, #fde68a 100%);
+  --phase-border: #facc15;
+  --phase-ink: #854d0e;
+}
+.phase-effort {
+  --phase-bg: linear-gradient(135deg, #fecaca 0%, #f87171 100%);
+  --phase-border: #ef4444;
+  --phase-ink: #7f1d1d;
+}
+.phase-rest {
+  --phase-bg: linear-gradient(135deg, #dbeafe 0%, #60a5fa 100%);
+  --phase-border: #3b82f6;
+  --phase-ink: #1e3a8a;
+}
+.phase-complete,
+.phase-stopped {
+  --phase-bg: linear-gradient(135deg, #e2e8f0 0%, #94a3b8 100%);
+  --phase-border: #64748b;
+  --phase-ink: #0f172a;
+}
+.workout-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.7fr) minmax(240px, 1fr);
+  gap: 18px;
+  margin-top: 22px;
+}
+.workout-card {
+  padding: 22px;
+  border-radius: 24px;
+  border: 1px solid #dbe4f0;
+  background: rgba(255, 255, 255, 0.92);
+  box-shadow: 0 16px 32px rgba(15, 23, 42, 0.08);
+  text-align: center;
+}
+.workout-card__label {
+  margin: 0;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: #64748b;
+}
+.workout-card__value {
+  margin-top: 10px;
+  font-size: clamp(24px, 3vw, 34px);
+  font-weight: 700;
+  line-height: 1.15;
+  color: #0f172a;
+}
+.workout-card__value--muted {
+  color: #334155;
+}
+.workout-media--card {
+  margin-top: 18px;
+}
+.workout-media--card img {
+  width: 100%;
+  max-height: 320px;
+  object-fit: cover;
+  margin: 0 auto;
+  box-shadow: 0 14px 28px rgba(15, 23, 42, 0.16);
+}
+.workout-controls {
+  justify-content: center;
+  margin-top: 10px;
+}
+.workout-controls .button,
+.workout-controls button {
+  min-width: 120px;
+}
 @media (max-width: 640px) {
   .list-item {
     grid-template-columns: 1fr;
   }
   nav {
     flex-direction: column;
+  }
+  .workout-shell {
+    padding: 24px 18px;
+  }
+  .workout-grid {
+    grid-template-columns: 1fr;
+  }
+  .phase-stage {
+    padding: 24px 18px;
   }
 }
