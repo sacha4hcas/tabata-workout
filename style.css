@@ -254,6 +254,28 @@ body[data-page="workout"] main {
   text-transform: uppercase;
   color: #64748b;
 }
+.metric-card--volume {
+  min-width: min(100%, 320px);
+}
+.volume-control {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-top: 16px;
+}
+.volume-control__slider {
+  flex: 1;
+  width: auto;
+  margin-top: 0;
+  accent-color: #0f172a;
+}
+.volume-control__value {
+  min-width: 52px;
+  font-size: 20px;
+  font-weight: 700;
+  color: #0f172a;
+  text-align: right;
+}
 .timer-value--hero {
   font-size: clamp(40px, 8vw, 64px);
   margin-top: 12px;
@@ -380,5 +402,12 @@ body[data-page="workout"] main {
   }
   .phase-stage {
     padding: 24px 18px;
+  }
+  .volume-control {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .volume-control__value {
+    text-align: center;
   }
 }

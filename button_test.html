@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Button Audio Test</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body data-page="button_test">
+  <header>
+    <h1>Button Audio Test</h1>
+    <nav>
+      <a class="nav-link" href="index.html">Home</a>
+      <a class="nav-link" href="start_workout.html">Start Workout</a>
+      <a class="nav-link" href="workout.html">Workout</a>
+    </nav>
+  </header>
+  <main class="page-card">
+    <section>
+      <h2>Sound Trigger Test</h2>
+      <p>Use these buttons to trigger each sound manually and check any startup delay.</p>
+      <label for="testVolume">Volume</label>
+      <div class="button-row">
+        <input id="testVolume" type="range" min="0" max="100" value="60" />
+        <strong id="testVolumeValue">60%</strong>
+      </div>
+      <div class="button-row">
+        <button id="testPrimeAudio" class="button secondary">Prime Audio</button>
+        <button id="testPlayStart" class="button">Play Start Sound</button>
+        <button id="testPlayEnd" class="button">Play End Sound</button>
+        <button id="testStopAll" class="button secondary">Stop</button>
+      </div>
+    </section>
+    <section>
+      <h3>Timing Log</h3>
+      <pre id="audioTestLog" class="workout-block" style="white-space: pre-wrap;"></pre>
+    </section>
+  </main>
+  <script src="app.js"></script>
+</body>
+</html>

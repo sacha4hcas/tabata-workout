@@ -1075,28 +1075,81 @@ function renderWorkout(data) {
     sequence = shuffleArray(sequence);
   }
 
-  const audioContext = (window.AudioContext || window.webkitAudioContext) ? new (window.AudioContext || window.webkitAudioContext)() : null;
+  const prepCountdownAudio = new Audio(encodeURI('countdown start workout.mp3'));
+  const effortCountdownAudio = new Audio(encodeURI('countdown end workout.mp3'));
+  prepCountdownAudio.preload = 'auto';
+  effortCountdownAudio.preload = 'auto';
+  prepCountdownAudio.load();
+  effortCountdownAudio.load();
 
-  function playTone(duration, frequency = 880) {
-    if (!audioContext) return;
-    const oscillator = audioContext.createOscillator();
-    const gain = audioContext.createGain();
-    oscillator.type = 'sine';
-    oscillator.frequency.value = frequency;
-    oscillator.connect(gain);
-    gain.connect(audioContext.destination);
-    gain.gain.setValueAtTime(0.0001, audioContext.currentTime);
-    gain.gain.exponentialRampToValueAtTime(0.2, audioContext.currentTime + 0.01);
-    oscillator.start(audioContext.currentTime);
-    gain.gain.exponentialRampToValueAtTime(0.0001, audioContext.currentTime + duration);
-    oscillator.stop(audioContext.currentTime + duration + 0.02);
+  let workoutAudioPrimed = false;
+  let workoutAudioPrimePromise = null;
+  let hasPlayedPrepCountdownForPhase = false;
+  let hasPlayedEffortCountdownForPhase = false;
+
+  prepCountdownAudio.volume = 1;
+  effortCountdownAudio.volume = 1;
+
+  function primeSingleAudio(audio) {
+    audio.muted = true;
+    return audio.play()
+      .then(() => {
+        audio.pause();
+        audio.currentTime = 0;
+        audio.muted = false;
+      })
+      .catch(() => {
+        audio.muted = false;
+      });
   }
 
-  function cuePhaseBeep() {
-    if (!audioContext || ![1, 2, 3].includes(remainingSeconds)) return;
-    const duration = remainingSeconds === 1 ? 0.25 : 0.1;
-    const frequency = remainingSeconds === 1 ? 660 : 440;
-    playTone(duration, frequency);
+  function primeWorkoutAudio() {
+    if (workoutAudioPrimed) return Promise.resolve();
+    if (workoutAudioPrimePromise) return workoutAudioPrimePromise;
+    workoutAudioPrimePromise = Promise.all([
+      primeSingleAudio(prepCountdownAudio),
+      primeSingleAudio(effortCountdownAudio)
+    ]).then(() => {
+      workoutAudioPrimed = true;
+    }).finally(() => {
+      workoutAudioPrimePromise = null;
+    });
+    return workoutAudioPrimePromise;
+  }
+
+  function playCountdownAudio(audio) {
+    const startPlayback = () => {
+      audio.pause();
+      audio.currentTime = 0;
+      audio.play().catch(() => {
+        // Ignore autoplay rejections if no user gesture happened yet.
+      });
+    };
+    if (workoutAudioPrimed) {
+      startPlayback();
+      return;
+    }
+    primeWorkoutAudio().finally(startPlayback);
+  }
+
+  function triggerPhaseCountdownCues() {
+    if (stage === 'prep') {
+      if (remainingSeconds === 3 && !hasPlayedPrepCountdownForPhase) {
+        playCountdownAudio(prepCountdownAudio);
+        hasPlayedPrepCountdownForPhase = true;
+      }
+    } else {
+      hasPlayedPrepCountdownForPhase = false;
+    }
+
+    if (stage === 'exercise') {
+      if (remainingSeconds === 3 && !hasPlayedEffortCountdownForPhase) {
+        playCountdownAudio(effortCountdownAudio);
+        hasPlayedEffortCountdownForPhase = true;
+      }
+    } else {
+      hasPlayedEffortCountdownForPhase = false;
+    }
   }
 
   function getPhaseDuration(exercice, phase) {
@@ -1183,6 +1236,7 @@ function renderWorkout(data) {
     renderMedia(sequence[currentIndex]);
     nextExerciceName.textContent = getNextExerciseName();
     pauseResume.textContent = paused ? 'Resume' : 'Pause';
+    triggerPhaseCountdownCues();
   }
 
   function stopSession() {
@@ -1227,6 +1281,8 @@ function renderWorkout(data) {
     }
     stage = 'prep';
     remainingSeconds = getPhaseDuration(sequence[currentIndex], stage);
+    hasPlayedPrepCountdownForPhase = false;
+    hasPlayedEffortCountdownForPhase = false;
     return true;
   }
 
@@ -1266,6 +1322,8 @@ function renderWorkout(data) {
       if (stage === 'prep') {
         stage = 'exercise';
         remainingSeconds = getPhaseDuration(sequence[currentIndex], stage);
+        hasPlayedPrepCountdownForPhase = false;
+        hasPlayedEffortCountdownForPhase = false;
       } else if (stage === 'exercise') {
         const currentExercise = sequence[currentIndex];
         if (currentExercise) {
@@ -1278,6 +1336,7 @@ function renderWorkout(data) {
         saveData(data);
         stage = 'rest';
         remainingSeconds = getPhaseDuration(sequence[currentIndex], stage);
+        hasPlayedEffortCountdownForPhase = false;
       } else if (stage === 'rest') {
         if (!pickNextExercise()) {
           completeWorkout();
@@ -1296,7 +1355,6 @@ function renderWorkout(data) {
 
   function tick() {
     if (paused) return;
-    cuePhaseBeep();
     if (fullWorkout) {
       if (globalTimerValue > 0) {
         globalTimerValue -= 1;
@@ -1311,15 +1369,140 @@ function renderWorkout(data) {
   }
 
   pauseResume.addEventListener('click', () => {
+    primeWorkoutAudio();
     paused = !paused;
     pauseResume.textContent = paused ? 'Resume' : 'Pause';
   });
-
+  skipButton.addEventListener('click', primeWorkoutAudio);
+  stopWorkout.addEventListener('click', primeWorkoutAudio);
+  document.addEventListener('pointerdown', primeWorkoutAudio, { once: true });
+  document.addEventListener('keydown', primeWorkoutAudio, { once: true });
+  document.addEventListener('touchstart', primeWorkoutAudio, { once: true });
   skipButton.addEventListener('click', skipCurrentExercise);
   stopWorkout.addEventListener('click', stopSession);
-
   updateDisplay();
   timerInterval = setInterval(tick, 1000);
+}
+
+function renderButtonTest() {
+  const startButton = document.querySelector('#testPlayStart');
+  const endButton = document.querySelector('#testPlayEnd');
+  const stopButton = document.querySelector('#testStopAll');
+  const primeButton = document.querySelector('#testPrimeAudio');
+  const volumeSlider = document.querySelector('#testVolume');
+  const volumeValue = document.querySelector('#testVolumeValue');
+  const log = document.querySelector('#audioTestLog');
+  if (!startButton || !endButton || !stopButton || !primeButton || !volumeSlider || !volumeValue || !log) return;
+
+  const startAudio = new Audio(encodeURI('countdown start workout.mp3'));
+  const endAudio = new Audio(encodeURI('countdown end workout.mp3'));
+  startAudio.preload = 'auto';
+  endAudio.preload = 'auto';
+  startAudio.load();
+  endAudio.load();
+
+  let startPrimed = false;
+  let endPrimed = false;
+  let primePromise = null;
+
+  function appendLog(message) {
+    const timestamp = new Date().toLocaleTimeString();
+    log.textContent = `[${timestamp}] ${message}\n${log.textContent}`;
+  }
+
+  function applyVolume() {
+    const level = Number(volumeSlider.value) / 100;
+    const mapped = Math.min(1, Math.pow(level, 0.92));
+    startAudio.volume = mapped;
+    endAudio.volume = mapped;
+    volumeValue.textContent = `${Math.round(level * 100)}%`;
+  }
+
+  function primeAudio(audio, markPrimed, label) {
+    audio.muted = true;
+    const requestAt = performance.now();
+    const playPromise = audio.play();
+    if (playPromise && typeof playPromise.then === 'function') {
+      return playPromise.then(() => {
+        audio.pause();
+        audio.currentTime = 0;
+        audio.muted = false;
+        markPrimed();
+        appendLog(`${label} primed in ${Math.round(performance.now() - requestAt)} ms`);
+      }).catch(error => {
+        audio.muted = false;
+        appendLog(`${label} prime failed: ${error.message}`);
+      });
+    }
+    audio.pause();
+    audio.currentTime = 0;
+    audio.muted = false;
+    markPrimed();
+    appendLog(`${label} primed`);
+    return Promise.resolve();
+  }
+
+  function primeBoth() {
+    if (primePromise) return primePromise;
+    const tasks = [];
+    if (!startPrimed) {
+      tasks.push(primeAudio(startAudio, () => {
+        startPrimed = true;
+      }, 'Start sound'));
+    }
+    if (!endPrimed) {
+      tasks.push(primeAudio(endAudio, () => {
+        endPrimed = true;
+      }, 'End sound'));
+    }
+    if (tasks.length === 0) return Promise.resolve();
+    primePromise = Promise.all(tasks).finally(() => {
+      primePromise = null;
+    });
+    return primePromise;
+  }
+
+  async function playWithMetrics(audio, label) {
+    await primeBoth();
+    const requestAt = performance.now();
+    const onPlaying = () => {
+      appendLog(`${label} playing event after ${Math.round(performance.now() - requestAt)} ms`);
+      audio.removeEventListener('playing', onPlaying);
+    };
+
+    audio.pause();
+    audio.currentTime = 0;
+    audio.addEventListener('playing', onPlaying);
+    audio.play().then(() => {
+      appendLog(`${label} play() resolved in ${Math.round(performance.now() - requestAt)} ms`);
+    }).catch(error => {
+      audio.removeEventListener('playing', onPlaying);
+      appendLog(`${label} play failed: ${error.message}`);
+    });
+  }
+
+  function stopAll() {
+    startAudio.pause();
+    endAudio.pause();
+    startAudio.currentTime = 0;
+    endAudio.currentTime = 0;
+    appendLog('Stopped all sounds');
+  }
+
+  volumeSlider.addEventListener('input', applyVolume);
+  primeButton.addEventListener('click', () => {
+    primeBoth();
+  });
+  startButton.addEventListener('click', () => {
+    playWithMetrics(startAudio, 'Start sound');
+  });
+  endButton.addEventListener('click', () => {
+    playWithMetrics(endAudio, 'End sound');
+  });
+  stopButton.addEventListener('click', stopAll);
+
+  applyVolume();
+  appendLog('Audio test ready');
 }
 
 let data;
@@ -1341,6 +1524,7 @@ window.addEventListener('DOMContentLoaded', async () => {
   if (page === 'select_exercices') renderSelectExercices(data);
   if (page === 'start_workout') renderStartWorkout(data);
   if (page === 'workout') renderWorkout(data);
+  if (page === 'button_test') renderButtonTest();
   if (page === 'stats') renderStatsPage(data);
   if (page === 'workout_done') renderWorkoutDonePage(data);
 });
