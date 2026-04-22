@@ -787,7 +787,7 @@ function renderEditExercice(data) {
   let exercice = exerciceId ? getExercice(data, exerciceId) : null;
   if (!exercice) {
     title.textContent = 'Create Exercice';
-    exercice = { id: `e${Date.now()}`, name: '', description: '', mediaUrl: 'https://via.placeholder.com/320x180?text=New+Exercice', effortDuration: 20, restDuration: 10, prepDuration: 5 };
+    exercice = { id: `e${Date.now()}`, name: '', description: '', mediaUrl: 'https://via.placeholder.com/320x180?text=New+Exercice', effortDuration: 20, restDuration: 0, prepDuration: 5 };
   } else {
     title.textContent = `Edit Exercice: ${exercice.name}`;
     nameInput.value = exercice.name;
@@ -820,7 +820,8 @@ function renderEditExercice(data) {
     exercice.description = descriptionInput.value.trim();
     exercice.mediaUrl = mediaInput.value.trim();
     exercice.effortDuration = Number(effortInput.value) || 30;
-    exercice.restDuration = Number(restInput.value) || 0;
+    const parsedRestDuration = Number(restInput.value);
+    exercice.restDuration = Number.isFinite(parsedRestDuration) ? parsedRestDuration : 0;
     exercice.prepDuration = Number(prepInput.value) || 10;
     exercice.categories = Array.from(categoriesCheckboxes.querySelectorAll('input[type="checkbox"]:checked')).map(cb => cb.value);
     if (!exerciceId) {
@@ -1333,7 +1334,7 @@ function renderWorkout(data) {
   function getPhaseDuration(exercice, phase) {
     if (phase === 'prep') return exercice.prepDuration || 5;
     if (phase === 'exercise') return exercice.effortDuration || 20;
-    if (phase === 'rest') return exercice.restDuration || 10;
+    if (phase === 'rest') return Number.isFinite(exercice.restDuration) ? exercice.restDuration : 0;
     return 0;
   }
 
@@ -1521,9 +1522,17 @@ function renderWorkout(data) {
         }
         closeCurrentExerciseSession(false);
         saveData(data);
-        stage = 'rest';
-        remainingSeconds = getPhaseDuration(sequence[currentIndex], stage);
         hasPlayedEffortCountdownForPhase = false;
+        const restDuration = getPhaseDuration(sequence[currentIndex], 'rest');
+        if (restDuration === 0) {
+          if (!pickNextExercise()) {
+            completeWorkout();
+            return;
+          }
+        } else {
+          stage = 'rest';
+          remainingSeconds = restDuration;
+        }
       } else if (stage === 'rest') {
         if (!pickNextExercise()) {
           completeWorkout();
