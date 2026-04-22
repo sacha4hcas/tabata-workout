@@ -59,7 +59,7 @@
                           "name":  "Repli orteil rotation genou",
                           "description":  "",
                           "mediaUrl":  "",
-                          "effortDuration":  20,
+                          "effortDuration":  60,
                           "restDuration":  0,
                           "prepDuration":  10,
                           "categories":  [
@@ -373,7 +373,7 @@
                           "name":  "Orteil rythme",
                           "description":  "",
                           "mediaUrl":  "",
-                          "effortDuration":  20,
+                          "effortDuration":  60,
                           "restDuration":  0,
                           "prepDuration":  10,
                           "categories":  [
