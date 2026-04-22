@@ -437,6 +437,30 @@ function renderHome(data) {
   if (label) {
     label.textContent = `Profile: ${data.profile.name}`;
   }
+
+  const hardReloadButton = document.querySelector('#hardReloadCache');
+  hardReloadButton?.addEventListener('click', async () => {
+    hardReloadButton.disabled = true;
+    const originalText = hardReloadButton.textContent;
+    hardReloadButton.textContent = 'Refreshing...';
+
+    try {
+      if ('caches' in window) {
+        const cacheNames = await caches.keys();
+        await Promise.all(cacheNames.map(cacheName => caches.delete(cacheName)));
+      }
+
+      const currentUrl = new URL(window.location.href);
+      currentUrl.searchParams.set('_hardReload', Date.now().toString());
+      window.location.replace(currentUrl.toString());
+    } catch (error) {
+      console.warn('Hard refresh failed, using regular reload.', error);
+      window.location.reload();
+    } finally {
+      hardReloadButton.disabled = false;
+      hardReloadButton.textContent = originalText;
+    }
+  });
 }
 
 function renderManageProfiles(data) {
@@ -1191,9 +1215,58 @@ function renderWorkout(data) {
   let workoutAudioPrimePromise = null;
   let hasPlayedPrepCountdownForPhase = false;
   let hasPlayedEffortCountdownForPhase = false;
+  let wakeLockSentinel = null;
+  let wakeLockRequestPromise = null;
+  let wakeLockUnsupportedLogged = false;
 
   prepCountdownAudio.volume = 1;
   effortCountdownAudio.volume = 1;
+
+  function requestWakeLock() {
+    if (!('wakeLock' in navigator)) {
+      if (!wakeLockUnsupportedLogged) {
+        console.info('Screen Wake Lock API is not supported on this device/browser.');
+        wakeLockUnsupportedLogged = true;
+      }
+      return Promise.resolve();
+    }
+    if (document.visibilityState !== 'visible') {
+      return Promise.resolve();
+    }
+    if (wakeLockSentinel && !wakeLockSentinel.released) {
+      return Promise.resolve();
+    }
+    if (wakeLockRequestPromise) {
+      return wakeLockRequestPromise;
+    }
+
+    wakeLockRequestPromise = navigator.wakeLock.request('screen').then(sentinel => {
+      wakeLockSentinel = sentinel;
+      wakeLockSentinel.addEventListener('release', () => {
+        wakeLockSentinel = null;
+      });
+    }).catch(error => {
+      console.info('Unable to acquire screen wake lock:', error.message || error);
+    }).finally(() => {
+      wakeLockRequestPromise = null;
+    });
+
+    return wakeLockRequestPromise;
+  }
+
+  function releaseWakeLock() {
+    if (!wakeLockSentinel) return;
+    wakeLockSentinel.release().catch(() => {
+      // Ignore release failures.
+    });
+    wakeLockSentinel = null;
+  }
+
+  function handleVisibilityChange() {
+    if (document.visibilityState === 'visible') {
+      requestWakeLock();
+    }
+  }
 
   function primeSingleAudio(audio) {
     audio.muted = true;
@@ -1342,6 +1415,8 @@ function renderWorkout(data) {
     clearInterval(timerInterval);
     closeCurrentExerciseSession(true);
     saveWorkoutStats();
+    releaseWakeLock();
+    document.removeEventListener('visibilitychange', handleVisibilityChange);
     currentExerciceName.textContent = 'Workout stopped';
     currentPhaseName.textContent = 'Stopped';
     setPhaseState('stopped');
@@ -1355,6 +1430,8 @@ function renderWorkout(data) {
     closeCurrentExerciseSession(false);
     saveWorkoutStats();
     clearInterval(timerInterval);
+    releaseWakeLock();
+    document.removeEventListener('visibilitychange', handleVisibilityChange);
     currentExerciceName.textContent = 'Workout complete';
     currentPhaseName.textContent = 'Complete';
     setPhaseState('complete');
@@ -1480,14 +1557,32 @@ function renderWorkout(data) {
 
   pauseResume.addEventListener('click', () => {
     primeWorkoutAudio();
+    requestWakeLock();
     paused = !paused;
     pauseResume.textContent = paused ? 'Resume' : 'Pause';
   });
-  skipButton.addEventListener('click', primeWorkoutAudio);
-  stopWorkout.addEventListener('click', primeWorkoutAudio);
-  document.addEventListener('pointerdown', primeWorkoutAudio, { once: true });
-  document.addEventListener('keydown', primeWorkoutAudio, { once: true });
-  document.addEventListener('touchstart', primeWorkoutAudio, { once: true });
+  skipButton.addEventListener('click', () => {
+    primeWorkoutAudio();
+    requestWakeLock();
+  });
+  stopWorkout.addEventListener('click', () => {
+    primeWorkoutAudio();
+    requestWakeLock();
+  });
+  document.addEventListener('pointerdown', () => {
+    primeWorkoutAudio();
+    requestWakeLock();
+  }, { once: true });
+  document.addEventListener('keydown', () => {
+    primeWorkoutAudio();
+    requestWakeLock();
+  }, { once: true });
+  document.addEventListener('touchstart', () => {
+    primeWorkoutAudio();
+    requestWakeLock();
+  }, { once: true });
+  document.addEventListener('visibilitychange', handleVisibilityChange);
+  requestWakeLock();
   skipButton.addEventListener('click', skipCurrentExercise);
   stopWorkout.addEventListener('click', stopSession);
   updateDisplay();
