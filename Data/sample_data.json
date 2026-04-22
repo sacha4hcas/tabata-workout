@@ -629,7 +629,7 @@
                           "name":  "Barre hold",
                           "description":  "",
                           "mediaUrl":  "",
-                          "effortDuration":  60,
+                          "effortDuration":  30,
                           "restDuration":  0,
                           "prepDuration":  10,
                           "categories":  [
@@ -643,7 +643,7 @@
                           "name":  "Abdo barre",
                           "description":  "",
                           "mediaUrl":  "",
-                          "effortDuration":  60,
+                          "effortDuration":  30,
                           "restDuration":  0,
                           "prepDuration":  10,
                           "categories":  [
