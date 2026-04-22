@@ -795,9 +795,9 @@ function renderEditExercice(data) {
     exercice.name = nameInput.value.trim() || 'Unnamed exercice';
     exercice.description = descriptionInput.value.trim();
     exercice.mediaUrl = mediaInput.value.trim();
-    exercice.effortDuration = Number(effortInput.value) || 20;
-    exercice.restDuration = Number(restInput.value) || 10;
-    exercice.prepDuration = Number(prepInput.value) || 5;
+    exercice.effortDuration = Number(effortInput.value) || 30;
+    exercice.restDuration = Number(restInput.value) || 0;
+    exercice.prepDuration = Number(prepInput.value) || 10;
     exercice.categories = Array.from(categoriesCheckboxes.querySelectorAll('input[type="checkbox"]:checked')).map(cb => cb.value);
     if (!exerciceId) {
       data.exercices.push(exercice);
