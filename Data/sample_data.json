@@ -1,686 +1,762 @@
 {
-    "profile":  {
-                    "name":  "Guest",
-                    "banner":  "",
-                    "categories":  [
-                                       "Badminton",
-                                       "Calisthenics",
-                                       "Proprioception",
-                                       "Etirement",
-                                       "Rééducation",
-                                       "Haut du corps",
-                                       "Bas du corps"
-                                   ]
-                },
-    "workouts":  [
-
-                 ],
-    "exercices":  [
-                      {
-                          "id":  "e1776013696353",
-                          "name":  "Montée de talon avec balle",
-                          "description":  "",
-                          "mediaUrl":  "https://mir-s3-cdn-cf.behance.net/project_modules/fs/218fc872735831.5bf1e45999c40.gif",
-                          "effortDuration":  60,
-                          "restDuration":  0,
-                          "prepDuration":  10,
-                          "categories":  [
-                                             "Proprioception",
-                                             "Bas du corps"
-                                         ]
-                      },
-                      {
-                          "id":  "e1776013941309",
-                          "name":  "Montée de talon surélevée",
-                          "description":  "",
-                          "mediaUrl":  "",
-                          "effortDuration":  60,
-                          "restDuration":  0,
-                          "prepDuration":  10,
-                          "categories":  [
-                                             "Proprioception",
-                                             "Bas du corps"
-                                         ]
-                      },
-                      {
-                          "id":  "e1776013982834",
-                          "name":  "Repli orteil",
-                          "description":  "",
-                          "mediaUrl":  "",
-                          "effortDuration":  60,
-                          "restDuration":  0,
-                          "prepDuration":  10,
-                          "categories":  [
-                                             "Bas du corps"
-                                         ]
-                      },
-                      {
-                          "id":  "e1776014004847",
-                          "name":  "Repli orteil rotation genou",
-                          "description":  "",
-                          "mediaUrl":  "",
-                          "effortDuration":  60,
-                          "restDuration":  0,
-                          "prepDuration":  10,
-                          "categories":  [
-                                             "Bas du corps"
-                                         ]
-                      },
-                      {
-                          "id":  "e1776014019112",
-                          "name":  "Marche pinguin",
-                          "description":  "",
-                          "mediaUrl":  "",
-                          "effortDuration":  60,
-                          "restDuration":  0,
-                          "prepDuration":  10,
-                          "categories":  [
-                                             "Proprioception",
-                                             "Bas du corps"
-                                         ]
-                      },
-                      {
-                          "id":  "e1776014038254",
-                          "name":  "Poggo pinguin",
-                          "description":  "",
-                          "mediaUrl":  "",
-                          "effortDuration":  60,
-                          "restDuration":  0,
-                          "prepDuration":  10,
-                          "categories":  [
-                                             "Proprioception",
-                                             "Bas du corps"
-                                         ]
-                      },
-                      {
-                          "id":  "e1776014050594",
-                          "name":  "Etirement gros orteil",
-                          "description":  "",
-                          "mediaUrl":  "",
-                          "effortDuration":  60,
-                          "restDuration":  0,
-                          "prepDuration":  10,
-                          "categories":  [
-                                             "Etirement",
-                                             "Rééducation",
-                                             "Bas du corps"
-                                         ]
-                      },
-                      {
-                          "id":  "e1776014105167",
-                          "name":  "Orteil indépendant",
-                          "description":  "",
-                          "mediaUrl":  "",
-                          "effortDuration":  60,
-                          "restDuration":  0,
-                          "prepDuration":  10,
-                          "categories":  [
-                                             "Rééducation",
-                                             "Etirement",
-                                             "Bas du corps"
-                                         ]
-                      },
-                      {
-                          "id":  "e1776014126429",
-                          "name":  "Séparation Orteil",
-                          "description":  "",
-                          "mediaUrl":  "",
-                          "effortDuration":  60,
-                          "restDuration":  0,
-                          "prepDuration":  10,
-                          "categories":  [
-                                             "Etirement",
-                                             "Rééducation",
-                                             "Bas du corps"
-                                         ]
-                      },
-                      {
-                          "id":  "e1776014141434",
-                          "name":  "Rotation genou sur chaise",
-                          "description":  "",
-                          "mediaUrl":  "",
-                          "effortDuration":  60,
-                          "restDuration":  0,
-                          "prepDuration":  10,
-                          "categories":  [
-                                             "Rééducation",
-                                             "Bas du corps"
-                                         ]
-                      },
-                      {
-                          "id":  "e1776014165928",
-                          "name":  "Stabilisation pied 90 degré",
-                          "description":  "",
-                          "mediaUrl":  "",
-                          "effortDuration":  60,
-                          "restDuration":  0,
-                          "prepDuration":  10,
-                          "categories":  [
-                                             "Proprioception",
-                                             "Rééducation",
-                                             "Bas du corps"
-                                         ]
-                      },
-                      {
-                          "id":  "e1776014190107",
-                          "name":  "Stabilisation pied avant",
-                          "description":  "",
-                          "mediaUrl":  "",
-                          "effortDuration":  60,
-                          "restDuration":  0,
-                          "prepDuration":  10,
-                          "categories":  [
-                                             "Proprioception",
-                                             "Rééducation",
-                                             "Bas du corps"
-                                         ]
-                      },
-                      {
-                          "id":  "e1776014204167",
-                          "name":  "Stabilisation pied lateral",
-                          "description":  "",
-                          "mediaUrl":  "",
-                          "effortDuration":  60,
-                          "restDuration":  0,
-                          "prepDuration":  10,
-                          "categories":  [
-                                             "Proprioception",
-                                             "Rééducation",
-                                             "Bas du corps"
-                                         ]
-                      },
-                      {
-                          "id":  "e1776014216732",
-                          "name":  "Stabilisation pied arrière",
-                          "description":  "",
-                          "mediaUrl":  "",
-                          "effortDuration":  60,
-                          "restDuration":  0,
-                          "prepDuration":  10,
-                          "categories":  [
-                                             "Proprioception",
-                                             "Rééducation",
-                                             "Bas du corps"
-                                         ]
-                      },
-                      {
-                          "id":  "e1776014226442",
-                          "name":  "Superman sur un pied",
-                          "description":  "",
-                          "mediaUrl":  "",
-                          "effortDuration":  60,
-                          "restDuration":  0,
-                          "prepDuration":  10,
-                          "categories":  [
-                                             "Proprioception",
-                                             "Rééducation",
-                                             "Bas du corps"
-                                         ]
-                      },
-                      {
-                          "id":  "e1776014253964",
-                          "name":  "Squat bulgare",
-                          "description":  "",
-                          "mediaUrl":  "",
-                          "effortDuration":  60,
-                          "restDuration":  0,
-                          "prepDuration":  10,
-                          "categories":  [
-                                             "Proprioception",
-                                             "Bas du corps"
-                                         ]
-                      },
-                      {
-                          "id":  "e1776014289691",
-                          "name":  "Marche sur orteil",
-                          "description":  "",
-                          "mediaUrl":  "",
-                          "effortDuration":  45,
-                          "restDuration":  0,
-                          "prepDuration":  10,
-                          "categories":  [
-                                             "Proprioception",
-                                             "Rééducation",
-                                             "Bas du corps"
-                                         ]
-                      },
-                      {
-                          "id":  "e1776014313106",
-                          "name":  "Tenir sur un pied",
-                          "description":  "",
-                          "mediaUrl":  "",
-                          "effortDuration":  60,
-                          "restDuration":  0,
-                          "prepDuration":  10,
-                          "categories":  [
-                                             "Proprioception",
-                                             "Rééducation",
-                                             "Bas du corps"
-                                         ]
-                      },
-                      {
-                          "id":  "e1776014344678",
-                          "name":  "Mur sur un pied",
-                          "description":  "",
-                          "mediaUrl":  "",
-                          "effortDuration":  60,
-                          "restDuration":  0,
-                          "prepDuration":  10,
-                          "categories":  [
-                                             "Badminton",
-                                             "Proprioception",
-                                             "Bas du corps"
-                                         ]
-                      },
-                      {
-                          "id":  "e1776014356571",
-                          "name":  "Mur rapide",
-                          "description":  "",
-                          "mediaUrl":  "",
-                          "effortDuration":  60,
-                          "restDuration":  0,
-                          "prepDuration":  10,
-                          "categories":  [
-                                             "Badminton"
-                                         ]
-                      },
-                      {
-                          "id":  "e1776014365075",
-                          "name":  "Mur feinte droite",
-                          "description":  "",
-                          "mediaUrl":  "",
-                          "effortDuration":  60,
-                          "restDuration":  0,
-                          "prepDuration":  10,
-                          "categories":  [
-                                             "Badminton"
-                                         ]
-                      },
-                      {
-                          "id":  "e1776014375003",
-                          "name":  "Mur feinte croisée",
-                          "description":  "",
-                          "mediaUrl":  "",
-                          "effortDuration":  60,
-                          "restDuration":  0,
-                          "prepDuration":  10,
-                          "categories":  [
-                                             "Badminton"
-                                         ]
-                      },
-                      {
-                          "id":  "e1776014399446",
-                          "name":  "Mur contre amorti croisé coup droit",
-                          "description":  "",
-                          "mediaUrl":  "",
-                          "effortDuration":  60,
-                          "restDuration":  0,
-                          "prepDuration":  10,
-                          "categories":  [
-                                             "Badminton"
-                                         ]
-                      },
-                      {
-                          "id":  "e1776014423075",
-                          "name":  "Mur contre amorti croisé revers",
-                          "description":  "",
-                          "mediaUrl":  "",
-                          "effortDuration":  60,
-                          "restDuration":  0,
-                          "prepDuration":  10,
-                          "categories":  [
-                                             "Badminton"
-                                         ]
-                      },
-                      {
-                          "id":  "e1776014440143",
-                          "name":  "Mur amorti précision",
-                          "description":  "",
-                          "mediaUrl":  "",
-                          "effortDuration":  60,
-                          "restDuration":  0,
-                          "prepDuration":  10,
-                          "categories":  [
-                                             "Badminton"
-                                         ]
-                      },
-                      {
-                          "id":  "e1776014466416",
-                          "name":  "Mur revers coupé",
-                          "description":  "",
-                          "mediaUrl":  "",
-                          "effortDuration":  60,
-                          "restDuration":  0,
-                          "prepDuration":  10,
-                          "categories":  [
-                                             "Badminton"
-                                         ]
-                      },
-                      {
-                          "id":  "e1776014481403",
-                          "name":  "Mur coup alterné",
-                          "description":  "",
-                          "mediaUrl":  "",
-                          "effortDuration":  60,
-                          "restDuration":  0,
-                          "prepDuration":  10,
-                          "categories":  [
-                                             "Badminton"
-                                         ]
-                      },
-                      {
-                          "id":  "e1776014494760",
-                          "name":  "Orteil rythme",
-                          "description":  "",
-                          "mediaUrl":  "",
-                          "effortDuration":  60,
-                          "restDuration":  0,
-                          "prepDuration":  10,
-                          "categories":  [
-                                             "Rééducation",
-                                             "Bas du corps"
-                                         ]
-                      },
-                      {
-                          "id":  "e1776014518330",
-                          "name":  "Abdos haltère",
-                          "description":  "",
-                          "mediaUrl":  "",
-                          "effortDuration":  60,
-                          "restDuration":  0,
-                          "prepDuration":  10,
-                          "categories":  [
-                                             "Calisthenics",
-                                             "Haut du corps"
-                                         ]
-                      },
-                      {
-                          "id":  "e1776014556352",
-                          "name":  "Pompes",
-                          "description":  "",
-                          "mediaUrl":  "",
-                          "effortDuration":  60,
-                          "restDuration":  0,
-                          "prepDuration":  10,
-                          "categories":  [
-                                             "Calisthenics",
-                                             "Haut du corps"
-                                         ]
-                      },
-                      {
-                          "id":  "e1776014599597",
-                          "name":  "L-Sit dynamique alterné",
-                          "description":  "",
-                          "mediaUrl":  "",
-                          "effortDuration":  60,
-                          "restDuration":  0,
-                          "prepDuration":  10,
-                          "categories":  [
-                                             "Calisthenics",
-                                             "Haut du corps",
-                                             "Bas du corps"
-                                         ]
-                      },
-                      {
-                          "id":  "e1776014626607",
-                          "name":  "L-sit dynamique 2 jambes",
-                          "description":  "",
-                          "mediaUrl":  "",
-                          "effortDuration":  30,
-                          "restDuration":  0,
-                          "prepDuration":  10,
-                          "categories":  [
-                                             "Calisthenics",
-                                             "Haut du corps",
-                                             "Bas du corps"
-                                         ]
-                      },
-                      {
-                          "id":  "e1776014641086",
-                          "name":  "Etirement bras haltère",
-                          "description":  "",
-                          "mediaUrl":  "",
-                          "effortDuration":  60,
-                          "restDuration":  0,
-                          "prepDuration":  10,
-                          "categories":  [
-                                             "Etirement",
-                                             "Rééducation",
-                                             "Haut du corps",
-                                             "Calisthenics"
-                                         ]
-                      },
-                      {
-                          "id":  "e1776014657624",
-                          "name":  "Pompe piquées",
-                          "description":  "",
-                          "mediaUrl":  "",
-                          "effortDuration":  30,
-                          "restDuration":  0,
-                          "prepDuration":  10,
-                          "categories":  [
-                                             "Calisthenics",
-                                             "Haut du corps"
-                                         ]
-                      },
-                      {
-                          "id":  "e1776014682907",
-                          "name":  "Corbeau",
-                          "description":  "",
-                          "mediaUrl":  "",
-                          "effortDuration":  30,
-                          "restDuration":  0,
-                          "prepDuration":  10,
-                          "categories":  [
-                                             "Calisthenics",
-                                             "Haut du corps"
-                                         ]
-                      },
-                      {
-                          "id":  "e1776014694007",
-                          "name":  "Etimerement L-sit",
-                          "description":  "",
-                          "mediaUrl":  "",
-                          "effortDuration":  60,
-                          "restDuration":  0,
-                          "prepDuration":  10,
-                          "categories":  [
-                                             "Etirement",
-                                             "Bas du corps",
-                                             "Calisthenics",
-                                             "Rééducation"
-                                         ]
-                      },
-                      {
-                          "id":  "e1776014711932",
-                          "name":  "Saut latéral",
-                          "description":  "",
-                          "mediaUrl":  "",
-                          "effortDuration":  60,
-                          "restDuration":  0,
-                          "prepDuration":  10,
-                          "categories":  [
-                                             "Bas du corps"
-                                         ]
-                      },
-                      {
-                          "id":  "e1776014732691",
-                          "name":  "Saut avant arrière",
-                          "description":  "",
-                          "mediaUrl":  "",
-                          "effortDuration":  60,
-                          "restDuration":  0,
-                          "prepDuration":  10,
-                          "categories":  [
-                                             "Bas du corps"
-                                         ]
-                      },
-                      {
-                          "id":  "e1776014750382",
-                          "name":  "Piétinement",
-                          "description":  "",
-                          "mediaUrl":  "",
-                          "effortDuration":  60,
-                          "restDuration":  0,
-                          "prepDuration":  10,
-                          "categories":  [
-                                             "Bas du corps"
-                                         ]
-                      },
-                      {
-                          "id":  "e1776014767332",
-                          "name":  "Saut extérieur intérieur latéral",
-                          "description":  "",
-                          "mediaUrl":  "",
-                          "effortDuration":  60,
-                          "restDuration":  0,
-                          "prepDuration":  10,
-                          "categories":  [
-                                             "Bas du corps"
-                                         ]
-                      },
-                      {
-                          "id":  "e1776014792344",
-                          "name":  "Saut extérieur intérieur avant arrière",
-                          "description":  "",
-                          "mediaUrl":  "",
-                          "effortDuration":  60,
-                          "restDuration":  0,
-                          "prepDuration":  10,
-                          "categories":  [
-                                             "Bas du corps"
-                                         ]
-                      },
-                      {
-                          "id":  "e1776014812670",
-                          "name":  "Saut en carré",
-                          "description":  "",
-                          "mediaUrl":  "",
-                          "effortDuration":  60,
-                          "restDuration":  0,
-                          "prepDuration":  10,
-                          "categories":  [
-                                             "Bas du corps"
-                                         ]
-                      },
-                      {
-                          "id":  "e1776014841566",
-                          "name":  "Feinte alternée",
-                          "description":  "",
-                          "mediaUrl":  "",
-                          "effortDuration":  60,
-                          "restDuration":  0,
-                          "prepDuration":  10,
-                          "categories":  [
-                                             "Bas du corps"
-                                         ]
-                      },
-                      {
-                          "id":  "e1776014863254",
-                          "name":  "Saut rebond 90 degré",
-                          "description":  "",
-                          "mediaUrl":  "",
-                          "effortDuration":  45,
-                          "restDuration":  0,
-                          "prepDuration":  10,
-                          "categories":  [
-                                             "Bas du corps"
-                                         ]
-                      },
-                      {
-                          "id":  "e1776014887764",
-                          "name":  "Feinte alternée danse des année 70",
-                          "description":  "",
-                          "mediaUrl":  "",
-                          "effortDuration":  60,
-                          "restDuration":  0,
-                          "prepDuration":  10,
-                          "categories":  [
-                                             "Bas du corps"
-                                         ]
-                      },
-                      {
-                          "id":  "e1776014933450",
-                          "name":  "Saut montée de genou",
-                          "description":  "",
-                          "mediaUrl":  "",
-                          "effortDuration":  30,
-                          "restDuration":  0,
-                          "prepDuration":  10,
-                          "categories":  [
-                                             "Bas du corps"
-                                         ]
-                      },
-                      {
-                          "id":  "e1776034880173",
-                          "name":  "Tractions",
-                          "description":  "",
-                          "mediaUrl":  "",
-                          "effortDuration":  30,
-                          "restDuration":  0,
-                          "prepDuration":  10,
-                          "categories":  [
-                                             "Calisthenics",
-                                             "Haut du corps"
-                                         ]
-                      },
-                      {
-                          "id":  "e1776034896885",
-                          "name":  "Barre hold",
-                          "description":  "",
-                          "mediaUrl":  "",
-                          "effortDuration":  30,
-                          "restDuration":  0,
-                          "prepDuration":  10,
-                          "categories":  [
-                                             "Calisthenics",
-                                             "Etirement",
-                                             "Haut du corps"
-                                         ]
-                      },
-                      {
-                          "id":  "e1776034964699",
-                          "name":  "Abdo barre",
-                          "description":  "",
-                          "mediaUrl":  "",
-                          "effortDuration":  30,
-                          "restDuration":  0,
-                          "prepDuration":  10,
-                          "categories":  [
-                                             "Calisthenics",
-                                             "Etirement",
-                                             "Haut du corps",
-                                             "Bas du corps"
-                                         ]
-                      },
-                      {
-                          "id":  "e1776034989173",
-                          "name":  "Etirement épaule",
-                          "description":  "",
-                          "mediaUrl":  "",
-                          "effortDuration":  60,
-                          "restDuration":  0,
-                          "prepDuration":  10,
-                          "categories":  [
-                                             "Badminton",
-                                             "Etirement",
-                                             "Rééducation",
-                                             "Haut du corps"
-                                         ]
-                      },
-                      {
-                          "id":  "e1776035021183",
-                          "name":  "Haltère poignet",
-                          "description":  "",
-                          "mediaUrl":  "",
-                          "effortDuration":  60,
-                          "restDuration":  0,
-                          "prepDuration":  10,
-                          "categories":  [
-                                             "Badminton",
-                                             "Rééducation",
-                                             "Haut du corps"
-                                         ]
-                      }
-                  ]
+  "profile": {
+    "name": "Guest",
+    "banner": "",
+    "categories": [
+      "Badminton",
+      "Calisthenics",
+      "Proprioception",
+      "Etirement",
+      "Rééducation",
+      "Haut du corps",
+      "Bas du corps"
+    ]
+  },
+  "workouts": [],
+  "exercices": [
+    {
+      "id": "e1776013696353",
+      "name": "Montée de talon avec balle",
+      "description": "",
+      "mediaUrl": "https://mir-s3-cdn-cf.behance.net/project_modules/fs/218fc872735831.5bf1e45999c40.gif",
+      "effortDuration": 5,
+      "restDuration": 0,
+      "prepDuration": 10,
+      "categories": [
+        "Proprioception",
+        "Bas du corps"
+      ],
+      "completionCount": 1
+    },
+    {
+      "id": "e1776013941309",
+      "name": "Montée de talon surélevée",
+      "description": "",
+      "mediaUrl": "",
+      "effortDuration": 60,
+      "restDuration": 0,
+      "prepDuration": 10,
+      "categories": [
+        "Proprioception",
+        "Bas du corps"
+      ],
+      "completionCount": 0
+    },
+    {
+      "id": "e1776013982834",
+      "name": "Repli orteil",
+      "description": "",
+      "mediaUrl": "",
+      "effortDuration": 60,
+      "restDuration": 0,
+      "prepDuration": 10,
+      "categories": [
+        "Bas du corps"
+      ],
+      "completionCount": 0
+    },
+    {
+      "id": "e1776014004847",
+      "name": "Repli orteil rotation genou",
+      "description": "",
+      "mediaUrl": "",
+      "effortDuration": 60,
+      "restDuration": 0,
+      "prepDuration": 10,
+      "categories": [
+        "Bas du corps"
+      ],
+      "completionCount": 0
+    },
+    {
+      "id": "e1776014019112",
+      "name": "Marche pinguin",
+      "description": "",
+      "mediaUrl": "",
+      "effortDuration": 60,
+      "restDuration": 0,
+      "prepDuration": 10,
+      "categories": [
+        "Proprioception",
+        "Bas du corps"
+      ],
+      "completionCount": 0
+    },
+    {
+      "id": "e1776014038254",
+      "name": "Poggo pinguin",
+      "description": "",
+      "mediaUrl": "",
+      "effortDuration": 60,
+      "restDuration": 0,
+      "prepDuration": 10,
+      "categories": [
+        "Proprioception",
+        "Bas du corps"
+      ],
+      "completionCount": 0
+    },
+    {
+      "id": "e1776014050594",
+      "name": "Etirement gros orteil",
+      "description": "",
+      "mediaUrl": "",
+      "effortDuration": 60,
+      "restDuration": 0,
+      "prepDuration": 10,
+      "categories": [
+        "Etirement",
+        "Rééducation",
+        "Bas du corps"
+      ],
+      "completionCount": 0
+    },
+    {
+      "id": "e1776014105167",
+      "name": "Orteil indépendant",
+      "description": "",
+      "mediaUrl": "",
+      "effortDuration": 60,
+      "restDuration": 0,
+      "prepDuration": 10,
+      "categories": [
+        "Rééducation",
+        "Etirement",
+        "Bas du corps"
+      ],
+      "completionCount": 0
+    },
+    {
+      "id": "e1776014141434",
+      "name": "Rotation genou sur chaise",
+      "description": "",
+      "mediaUrl": "",
+      "effortDuration": 60,
+      "restDuration": 0,
+      "prepDuration": 10,
+      "categories": [
+        "Rééducation",
+        "Bas du corps"
+      ],
+      "completionCount": 0
+    },
+    {
+      "id": "e1776014165928",
+      "name": "Stabilisation pied 90 degré",
+      "description": "",
+      "mediaUrl": "",
+      "effortDuration": 60,
+      "restDuration": 0,
+      "prepDuration": 10,
+      "categories": [
+        "Proprioception",
+        "Rééducation",
+        "Bas du corps"
+      ],
+      "completionCount": 0
+    },
+    {
+      "id": "e1776014190107",
+      "name": "Stabilisation pied avant",
+      "description": "",
+      "mediaUrl": "",
+      "effortDuration": 60,
+      "restDuration": 0,
+      "prepDuration": 10,
+      "categories": [
+        "Proprioception",
+        "Rééducation",
+        "Bas du corps"
+      ],
+      "completionCount": 0
+    },
+    {
+      "id": "e1776014204167",
+      "name": "Stabilisation pied lateral",
+      "description": "",
+      "mediaUrl": "",
+      "effortDuration": 60,
+      "restDuration": 0,
+      "prepDuration": 10,
+      "categories": [
+        "Proprioception",
+        "Rééducation",
+        "Bas du corps"
+      ],
+      "completionCount": 0
+    },
+    {
+      "id": "e1776014216732",
+      "name": "Stabilisation pied arrière",
+      "description": "",
+      "mediaUrl": "",
+      "effortDuration": 60,
+      "restDuration": 0,
+      "prepDuration": 10,
+      "categories": [
+        "Proprioception",
+        "Rééducation",
+        "Bas du corps"
+      ],
+      "completionCount": 0
+    },
+    {
+      "id": "e1776014226442",
+      "name": "Superman sur un pied",
+      "description": "",
+      "mediaUrl": "",
+      "effortDuration": 60,
+      "restDuration": 0,
+      "prepDuration": 10,
+      "categories": [
+        "Proprioception",
+        "Rééducation",
+        "Bas du corps"
+      ],
+      "completionCount": 0
+    },
+    {
+      "id": "e1776014253964",
+      "name": "Squat bulgare",
+      "description": "",
+      "mediaUrl": "",
+      "effortDuration": 60,
+      "restDuration": 0,
+      "prepDuration": 10,
+      "categories": [
+        "Proprioception",
+        "Bas du corps"
+      ],
+      "completionCount": 0
+    },
+    {
+      "id": "e1776014289691",
+      "name": "Ramper orteil",
+      "description": "",
+      "mediaUrl": "",
+      "effortDuration": 60,
+      "restDuration": 0,
+      "prepDuration": 10,
+      "categories": [
+        "Proprioception",
+        "Rééducation",
+        "Bas du corps"
+      ],
+      "completionCount": 0
+    },
+    {
+      "id": "e1776014313106",
+      "name": "Tenir sur un pied",
+      "description": "",
+      "mediaUrl": "",
+      "effortDuration": 60,
+      "restDuration": 0,
+      "prepDuration": 10,
+      "categories": [
+        "Proprioception",
+        "Rééducation",
+        "Bas du corps"
+      ],
+      "completionCount": 0
+    },
+    {
+      "id": "e1776014344678",
+      "name": "Mur sur un pied",
+      "description": "",
+      "mediaUrl": "",
+      "effortDuration": 60,
+      "restDuration": 0,
+      "prepDuration": 10,
+      "categories": [
+        "Badminton",
+        "Proprioception",
+        "Bas du corps"
+      ],
+      "completionCount": 0
+    },
+    {
+      "id": "e1776014356571",
+      "name": "Mur rapide",
+      "description": "",
+      "mediaUrl": "",
+      "effortDuration": 60,
+      "restDuration": 0,
+      "prepDuration": 10,
+      "categories": [
+        "Badminton"
+      ],
+      "completionCount": 0
+    },
+    {
+      "id": "e1776014365075",
+      "name": "Mur feinte droite",
+      "description": "",
+      "mediaUrl": "",
+      "effortDuration": 60,
+      "restDuration": 0,
+      "prepDuration": 10,
+      "categories": [
+        "Badminton"
+      ],
+      "completionCount": 0
+    },
+    {
+      "id": "e1776014375003",
+      "name": "Mur feinte croisée",
+      "description": "",
+      "mediaUrl": "",
+      "effortDuration": 60,
+      "restDuration": 0,
+      "prepDuration": 10,
+      "categories": [
+        "Badminton"
+      ],
+      "completionCount": 0
+    },
+    {
+      "id": "e1776014399446",
+      "name": "Mur contre amorti croisé coup droit",
+      "description": "",
+      "mediaUrl": "",
+      "effortDuration": 60,
+      "restDuration": 0,
+      "prepDuration": 10,
+      "categories": [
+        "Badminton"
+      ],
+      "completionCount": 0
+    },
+    {
+      "id": "e1776014423075",
+      "name": "Mur contre amorti croisé revers",
+      "description": "",
+      "mediaUrl": "",
+      "effortDuration": 60,
+      "restDuration": 0,
+      "prepDuration": 10,
+      "categories": [
+        "Badminton"
+      ],
+      "completionCount": 0
+    },
+    {
+      "id": "e1776014440143",
+      "name": "Mur amorti précision",
+      "description": "",
+      "mediaUrl": "",
+      "effortDuration": 60,
+      "restDuration": 0,
+      "prepDuration": 10,
+      "categories": [
+        "Badminton"
+      ],
+      "completionCount": 0
+    },
+    {
+      "id": "e1776014466416",
+      "name": "Mur revers coupé",
+      "description": "",
+      "mediaUrl": "",
+      "effortDuration": 60,
+      "restDuration": 0,
+      "prepDuration": 10,
+      "categories": [
+        "Badminton"
+      ],
+      "completionCount": 0
+    },
+    {
+      "id": "e1776014481403",
+      "name": "Mur coup alterné",
+      "description": "",
+      "mediaUrl": "",
+      "effortDuration": 60,
+      "restDuration": 0,
+      "prepDuration": 10,
+      "categories": [
+        "Badminton"
+      ],
+      "completionCount": 0
+    },
+    {
+      "id": "e1776014494760",
+      "name": "Orteil rythme",
+      "description": "",
+      "mediaUrl": "",
+      "effortDuration": 60,
+      "restDuration": 0,
+      "prepDuration": 10,
+      "categories": [
+        "Rééducation",
+        "Bas du corps"
+      ],
+      "completionCount": 0
+    },
+    {
+      "id": "e1776014518330",
+      "name": "Abdos haltère",
+      "description": "",
+      "mediaUrl": "",
+      "effortDuration": 60,
+      "restDuration": 0,
+      "prepDuration": 10,
+      "categories": [
+        "Calisthenics",
+        "Haut du corps"
+      ],
+      "completionCount": 0
+    },
+    {
+      "id": "e1776014556352",
+      "name": "Pompes",
+      "description": "",
+      "mediaUrl": "",
+      "effortDuration": 60,
+      "restDuration": 0,
+      "prepDuration": 10,
+      "categories": [
+        "Calisthenics",
+        "Haut du corps"
+      ],
+      "completionCount": 0
+    },
+    {
+      "id": "e1776014599597",
+      "name": "L-Sit dynamique alterné",
+      "description": "",
+      "mediaUrl": "",
+      "effortDuration": 60,
+      "restDuration": 0,
+      "prepDuration": 10,
+      "categories": [
+        "Calisthenics",
+        "Haut du corps",
+        "Bas du corps"
+      ],
+      "completionCount": 0
+    },
+    {
+      "id": "e1776014626607",
+      "name": "L-sit dynamique 2 jambes",
+      "description": "",
+      "mediaUrl": "",
+      "effortDuration": 30,
+      "restDuration": 0,
+      "prepDuration": 10,
+      "categories": [
+        "Calisthenics",
+        "Haut du corps",
+        "Bas du corps"
+      ],
+      "completionCount": 0
+    },
+    {
+      "id": "e1776014641086",
+      "name": "Etirement bras haltère",
+      "description": "",
+      "mediaUrl": "",
+      "effortDuration": 60,
+      "restDuration": 0,
+      "prepDuration": 10,
+      "categories": [
+        "Etirement",
+        "Rééducation",
+        "Haut du corps",
+        "Calisthenics"
+      ],
+      "completionCount": 0
+    },
+    {
+      "id": "e1776014657624",
+      "name": "Pompe piquées",
+      "description": "",
+      "mediaUrl": "",
+      "effortDuration": 30,
+      "restDuration": 0,
+      "prepDuration": 10,
+      "categories": [
+        "Calisthenics",
+        "Haut du corps"
+      ],
+      "completionCount": 0
+    },
+    {
+      "id": "e1776014682907",
+      "name": "Corbeau",
+      "description": "",
+      "mediaUrl": "",
+      "effortDuration": 30,
+      "restDuration": 0,
+      "prepDuration": 10,
+      "categories": [
+        "Calisthenics",
+        "Haut du corps"
+      ],
+      "completionCount": 0
+    },
+    {
+      "id": "e1776014694007",
+      "name": "Etimerement L-sit",
+      "description": "",
+      "mediaUrl": "",
+      "effortDuration": 60,
+      "restDuration": 0,
+      "prepDuration": 10,
+      "categories": [
+        "Etirement",
+        "Bas du corps",
+        "Calisthenics",
+        "Rééducation"
+      ],
+      "completionCount": 0
+    },
+    {
+      "id": "e1776014711932",
+      "name": "Saut latéral",
+      "description": "",
+      "mediaUrl": "",
+      "effortDuration": 60,
+      "restDuration": 0,
+      "prepDuration": 10,
+      "categories": [
+        "Bas du corps"
+      ],
+      "completionCount": 0
+    },
+    {
+      "id": "e1776014732691",
+      "name": "Saut avant arrière",
+      "description": "",
+      "mediaUrl": "",
+      "effortDuration": 60,
+      "restDuration": 0,
+      "prepDuration": 10,
+      "categories": [
+        "Bas du corps"
+      ],
+      "completionCount": 0
+    },
+    {
+      "id": "e1776014750382",
+      "name": "Piétinement",
+      "description": "",
+      "mediaUrl": "",
+      "effortDuration": 60,
+      "restDuration": 0,
+      "prepDuration": 10,
+      "categories": [
+        "Bas du corps"
+      ],
+      "completionCount": 0
+    },
+    {
+      "id": "e1776014767332",
+      "name": "Saut extérieur intérieur latéral",
+      "description": "",
+      "mediaUrl": "",
+      "effortDuration": 60,
+      "restDuration": 0,
+      "prepDuration": 10,
+      "categories": [
+        "Bas du corps"
+      ],
+      "completionCount": 0
+    },
+    {
+      "id": "e1776014792344",
+      "name": "Saut extérieur intérieur avant arrière",
+      "description": "",
+      "mediaUrl": "",
+      "effortDuration": 60,
+      "restDuration": 0,
+      "prepDuration": 10,
+      "categories": [
+        "Bas du corps"
+      ],
+      "completionCount": 0
+    },
+    {
+      "id": "e1776014812670",
+      "name": "Saut en carré",
+      "description": "",
+      "mediaUrl": "",
+      "effortDuration": 60,
+      "restDuration": 0,
+      "prepDuration": 10,
+      "categories": [
+        "Bas du corps"
+      ],
+      "completionCount": 0
+    },
+    {
+      "id": "e1776014841566",
+      "name": "Feinte alternée",
+      "description": "",
+      "mediaUrl": "",
+      "effortDuration": 60,
+      "restDuration": 0,
+      "prepDuration": 10,
+      "categories": [
+        "Bas du corps"
+      ],
+      "completionCount": 0
+    },
+    {
+      "id": "e1776014863254",
+      "name": "Saut rebond 90 degré",
+      "description": "",
+      "mediaUrl": "",
+      "effortDuration": 45,
+      "restDuration": 0,
+      "prepDuration": 10,
+      "categories": [
+        "Bas du corps"
+      ],
+      "completionCount": 0
+    },
+    {
+      "id": "e1776014887764",
+      "name": "Fente disco alternée",
+      "description": "",
+      "mediaUrl": "",
+      "effortDuration": 60,
+      "restDuration": 0,
+      "prepDuration": 10,
+      "categories": [
+        "Bas du corps"
+      ],
+      "completionCount": 0
+    },
+    {
+      "id": "e1776014933450",
+      "name": "Saut montée de genou",
+      "description": "",
+      "mediaUrl": "",
+      "effortDuration": 30,
+      "restDuration": 0,
+      "prepDuration": 10,
+      "categories": [
+        "Bas du corps"
+      ],
+      "completionCount": 0
+    },
+    {
+      "id": "e1776034880173",
+      "name": "Tractions",
+      "description": "",
+      "mediaUrl": "",
+      "effortDuration": 30,
+      "restDuration": 0,
+      "prepDuration": 10,
+      "categories": [
+        "Calisthenics",
+        "Haut du corps"
+      ],
+      "completionCount": 0
+    },
+    {
+      "id": "e1776034896885",
+      "name": "Barre hold",
+      "description": "",
+      "mediaUrl": "",
+      "effortDuration": 60,
+      "restDuration": 0,
+      "prepDuration": 10,
+      "categories": [
+        "Calisthenics",
+        "Etirement",
+        "Haut du corps"
+      ],
+      "completionCount": 0
+    },
+    {
+      "id": "e1776034964699",
+      "name": "Abdo barre",
+      "description": "",
+      "mediaUrl": "",
+      "effortDuration": 60,
+      "restDuration": 0,
+      "prepDuration": 10,
+      "categories": [
+        "Calisthenics",
+        "Etirement",
+        "Haut du corps",
+        "Bas du corps"
+      ],
+      "completionCount": 0
+    },
+    {
+      "id": "e1776034989173",
+      "name": "Etirement épaule",
+      "description": "",
+      "mediaUrl": "",
+      "effortDuration": 60,
+      "restDuration": 0,
+      "prepDuration": 10,
+      "categories": [
+        "Badminton",
+        "Etirement",
+        "Rééducation",
+        "Haut du corps"
+      ],
+      "completionCount": 0
+    },
+    {
+      "id": "e1776035021183",
+      "name": "Haltère poignet",
+      "description": "",
+      "mediaUrl": "",
+      "effortDuration": 60,
+      "restDuration": 0,
+      "prepDuration": 10,
+      "categories": [
+        "Badminton",
+        "Rééducation",
+        "Haut du corps"
+      ],
+      "completionCount": 0
+    },
+    {
+      "id": "e1776956332657",
+      "name": "Transfert de poids pied arrière",
+      "description": "",
+      "mediaUrl": "",
+      "effortDuration": 60,
+      "restDuration": 0,
+      "prepDuration": 10,
+      "categories": [
+        "Badminton",
+        "Proprioception",
+        "Bas du corps"
+      ],
+      "completionCount": 0
+    },
+    {
+      "id": "e1776956353390",
+      "name": "Mur overcut",
+      "description": "",
+      "mediaUrl": "",
+      "effortDuration": 60,
+      "restDuration": 0,
+      "prepDuration": 10,
+      "categories": [
+        "Badminton"
+      ],
+      "completionCount": 0
+    },
+    {
+      "id": "e1776956378411",
+      "name": "Step chaise",
+      "description": "",
+      "mediaUrl": "",
+      "effortDuration": 60,
+      "restDuration": 0,
+      "prepDuration": 10,
+      "categories": [
+        "Proprioception",
+        "Bas du corps"
+      ],
+      "completionCount": 0
+    }
+  ]
 }
