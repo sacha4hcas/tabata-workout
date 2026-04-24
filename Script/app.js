@@ -1049,6 +1049,7 @@ function renderWorkout(data) {
   const exerciceMediaHolder = document.querySelector('#exerciceMediaHolder');
   const exerciceTimer = document.querySelector('#exerciceTimer');
   const nextExerciceName = document.querySelector('#nextExerciceName');
+  const currentCategoryName = document.querySelector('#currentCategoryName');
   const pauseResume = document.querySelector('#pauseResume');
   const skipButton = document.querySelector('#skipExercise');
   const stopWorkout = document.querySelector('#stopWorkout');
@@ -1078,6 +1079,7 @@ function renderWorkout(data) {
   }
   const useCategoryBalancedRandom = random && selectedCategories.length > 0;
   const randomCategories = selectedCategories.filter(category => sequence.some(exercice => Array.isArray(exercice.categories) && exercice.categories.includes(category)));
+  const chosenCategoryHistory = [];
   const workoutDoneId = `wd${Date.now()}`;
   const workoutDone = {
     id: workoutDoneId,
@@ -1118,6 +1120,36 @@ function renderWorkout(data) {
     saveStatsData(statsData);
   }
 
+  function recordChosenCategory(category) {
+    if (!useCategoryBalancedRandom || !category) return;
+    chosenCategoryHistory.push(category);
+  }
+
+  function renderChosenCategoriesSummary(container) {
+    if (!container || chosenCategoryHistory.length === 0) return;
+
+    const counts = chosenCategoryHistory.reduce((acc, category) => {
+      acc[category] = (acc[category] || 0) + 1;
+      return acc;
+    }, {});
+
+    const summary = document.createElement('div');
+    summary.className = 'workout-random-categories-summary';
+    const title = document.createElement('p');
+    title.textContent = 'Chosen categories (random):';
+    summary.appendChild(title);
+
+    const list = document.createElement('ul');
+    Object.entries(counts).forEach(([category, count]) => {
+      const item = document.createElement('li');
+      item.textContent = `${category}: ${count}`;
+      list.appendChild(item);
+    });
+    summary.appendChild(list);
+
+    container.appendChild(summary);
+  }
+
   function showWorkoutDoneButton() {
     workoutDoneActions.innerHTML = '';
     const button = document.createElement('button');
@@ -1127,6 +1159,7 @@ function renderWorkout(data) {
       window.location.href = `workout_done.html?id=${workoutDoneId}`;
     });
     workoutDoneActions.appendChild(button);
+    renderChosenCategoriesSummary(workoutDoneActions);
   }
 
   if (sequence.length === 0) {
@@ -1148,18 +1181,23 @@ function renderWorkout(data) {
     if (!Array.isArray(categories) || categories.length === 0) return null;
 
     const totalWeight = categories.reduce((sum, category) => sum + getCategoryWeight(category), 0);
+    let weightedArray;
     if (totalWeight <= 0) {
-      return categories[Math.floor(Math.random() * categories.length)];
-    }
-
-    let target = Math.random() * totalWeight;
-    for (const category of categories) {
-      target -= getCategoryWeight(category);
-      if (target <= 0) {
-        return category;
+      weightedArray = [...categories];
+    } else {
+      weightedArray = [];
+      categories.forEach(category => {
+        const weight = getCategoryWeight(category);
+        for (let i = 0; i < weight; i++) {
+          weightedArray.push(category);
+        }
+      });
+      if (weightedArray.length === 0) {
+        weightedArray = [...categories];
       }
     }
-    return categories[categories.length - 1];
+
+    return weightedArray[Math.floor(Math.random() * weightedArray.length)];
   }
 
   function pickRandomExerciseFromCategory(category, sourceSequence) {
@@ -1171,35 +1209,42 @@ function renderWorkout(data) {
   function buildCategoryBalancedFullSequence(sourceSequence, categories) {
     const remaining = [...sourceSequence];
     const balanced = [];
+    const chosenCategories = [];
 
     while (remaining.length > 0) {
       const activeCategories = categories.filter(category => remaining.some(exercice => Array.isArray(exercice.categories) && exercice.categories.includes(category)));
       if (activeCategories.length === 0) {
         const fallbackIndex = Math.floor(Math.random() * remaining.length);
         balanced.push(remaining.splice(fallbackIndex, 1)[0]);
+        chosenCategories.push(null);
         continue;
       }
 
-      const chosenCategory = pickRandomCategory(activeCategories);
+      const chosenCategory = activeCategories[Math.floor(Math.random() * activeCategories.length)];
       const chosenExercise = pickRandomExerciseFromCategory(chosenCategory, remaining);
       if (!chosenExercise) {
         const fallbackIndex = Math.floor(Math.random() * remaining.length);
         balanced.push(remaining.splice(fallbackIndex, 1)[0]);
+        chosenCategories.push(null);
         continue;
       }
 
       const chosenIndex = remaining.findIndex(exercice => exercice.id === chosenExercise.id);
       if (chosenIndex >= 0) {
         balanced.push(remaining.splice(chosenIndex, 1)[0]);
+        chosenCategories.push(chosenCategory);
       }
     }
 
-    return balanced;
+    return { sequence: balanced, chosenCategories };
   }
 
+  let sequenceChosenCategories = [];
   if (fullWorkout && random) {
     if (useCategoryBalancedRandom && randomCategories.length > 0) {
-      sequence = buildCategoryBalancedFullSequence(sequence, randomCategories);
+      const built = buildCategoryBalancedFullSequence(sequence, randomCategories);
+      sequence = built.sequence;
+      sequenceChosenCategories = built.chosenCategories;
     } else {
       sequence = shuffleArray(sequence);
     }
@@ -1385,13 +1430,31 @@ function renderWorkout(data) {
   }
 
   let currentIndex = 0;
+  let currentChosenCategory = sequenceChosenCategories[0] || null;
+  recordChosenCategory(currentChosenCategory);
   let stage = 'prep';
-  let remainingSeconds = sequence.length ? getPhaseDuration(sequence[0], stage) : 0;
+
+  if (mode === 'infinite' && random && sequence.length > 0) {
+    if (useCategoryBalancedRandom && randomCategories.length > 0) {
+      const initCategory = pickRandomCategory(randomCategories);
+      const initExercise = pickRandomExerciseFromCategory(initCategory, sequence);
+      if (initExercise) {
+        const initIndex = sequence.findIndex(exercice => exercice.id === initExercise.id);
+        if (initIndex >= 0) currentIndex = initIndex;
+      }
+      currentChosenCategory = initCategory;
+      recordChosenCategory(currentChosenCategory);
+    } else {
+      currentIndex = Math.floor(Math.random() * sequence.length);
+    }
+  }
+
+  let remainingSeconds = sequence.length ? getPhaseDuration(sequence[currentIndex], stage) : 0;
   const totalSeconds = fullWorkout ? sequence.reduce((sum, item) => sum + getPhaseDuration(item, 'prep') + getPhaseDuration(item, 'exercise') + getPhaseDuration(item, 'rest'), 0) : 0;
   let elapsedSeconds = 0;
   let globalTimerValue = fullWorkout ? totalSeconds : 0;
   if (sequence.length > 0) {
-    startExerciseSession(sequence[0]);
+    startExerciseSession(sequence[currentIndex]);
   }
   let timerInterval = null;
   let paused = false;
@@ -1404,6 +1467,17 @@ function renderWorkout(data) {
     }
     exerciceTimer.textContent = formatTime(Math.max(0, remainingSeconds));
     currentExerciceName.textContent = sequence[currentIndex] ? sequence[currentIndex].name : 'Finished';
+    if (currentCategoryName) {
+      if (currentChosenCategory) {
+        currentCategoryName.textContent = currentChosenCategory;
+      } else {
+        const currentEx = sequence[currentIndex];
+        const cats = currentEx && Array.isArray(currentEx.categories) && currentEx.categories.length > 0
+          ? currentEx.categories.join(', ')
+          : '';
+        currentCategoryName.textContent = cats;
+      }
+    }
     currentPhaseName.textContent = getPhaseLabel(stage);
     setPhaseState(stage);
     renderMedia();
@@ -1446,6 +1520,8 @@ function renderWorkout(data) {
     if (mode === 'full') {
       if (currentIndex < sequence.length - 1) {
         currentIndex += 1;
+        currentChosenCategory = sequenceChosenCategories[currentIndex] || null;
+        recordChosenCategory(currentChosenCategory);
       } else {
         return false;
       }
@@ -1460,11 +1536,15 @@ function renderWorkout(data) {
           } else {
             currentIndex = Math.floor(Math.random() * sequence.length);
           }
+          currentChosenCategory = chosenCategory || null;
+          recordChosenCategory(currentChosenCategory);
         } else {
           currentIndex = Math.floor(Math.random() * sequence.length);
+          currentChosenCategory = null;
         }
       } else {
         currentIndex = (currentIndex + 1) % sequence.length;
+        currentChosenCategory = null;
       }
     }
     stage = 'prep';
